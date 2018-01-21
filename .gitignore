@@ -1,12 +1,17 @@
-*.class
+# NetBeans specific #
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+test/
+nbactions.xml
+nb-configuration.xml
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Class Files #
+*.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
