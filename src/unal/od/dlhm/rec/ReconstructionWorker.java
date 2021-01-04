@@ -334,7 +334,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         this.hologram = new float[M][N];
 
         for (int i = 0; i < M; i++) {
-            for (int j = 0; j < M; j++) {
+            for (int j = 0; j < N; j++) {
                 this.hologram[i][j] = hologram[i][j] - reference[i][j];
             }
         }
