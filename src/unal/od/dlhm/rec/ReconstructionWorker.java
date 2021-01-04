@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.rec;
 
 import ij.ImagePlus;
@@ -43,8 +42,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private int averageZoneSize;
 
     //hologram field
-    private float[][] hologram, interpolatedField, outputField;
+    private float[][] hologram, interpolatedField, outputField, outputField2, outputField3, outputField4;
     private boolean interpolated;
+
+    //Reference & Hologram 
+    private float[][] referenceSH;
+    private float[][] hologramSH;
 
     private KirchhoffHelmholtz propagator;
 
@@ -54,7 +57,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private boolean intensitySelected;
     private boolean realSelected;
     private boolean imaginarySelected;
-    
+
     //log scaling booleans
     private boolean amplitudeLogSelected;
     private boolean intensityLogSelected;
@@ -65,9 +68,11 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private boolean intensityByteSelected;
     private boolean realByteSelected;
     private boolean imaginaryByteSelected;
-    
+
     //
     boolean filteringEnabled;
+    boolean hasReference;
+    boolean hasHologram;
 
     //
     private Calibration cal;
@@ -101,6 +106,51 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
         //calibration
         cal = parent.getCalibration();
+
+        if (phaseSelected && hasReference) {
+            //Correr para holo
+
+            propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
+
+            if (!interpolated) {
+                if (filteringEnabled) {
+                    cosineFilter();
+                }
+
+                interpolatedField = propagator.interpolate(hologramSH);
+                parent.setInterpolatedField(interpolatedField);
+            }
+
+            //copies the interpolated field into a new array for the output field
+            outputField2 = new float[M][2 * N];
+
+            for (int i = 0; i < M; i++) {
+                System.arraycopy(interpolatedField[i], 0, outputField2[i], 0, 2 * N);
+            }
+
+            propagator.diffract(outputField2);
+
+            //Correr para Ref
+            propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
+
+            if (!interpolated) {
+                if (filteringEnabled) {
+                    cosineFilter();
+                }
+
+                interpolatedField = propagator.interpolate(referenceSH);
+                parent.setInterpolatedField(interpolatedField);
+            }
+
+            //copies the interpolated field into a new array for the output field
+            outputField3 = new float[M][2 * N];
+
+            for (int i = 0; i < M; i++) {
+                System.arraycopy(interpolatedField[i], 0, outputField3[i], 0, 2 * N);
+            }
+
+            propagator.diffract(outputField3);
+        }
 
         //creates the propagator object
         propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy,
@@ -140,17 +190,42 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
 //        ImagePlus imp2 = new ImagePlus("Amplitude; z = " + parameters[3] + names,
 //                    amplitudeByteSelected ? ip2.convertToByteProcessor() : ip2);
-        if (phaseSelected) {
-            float[][] phase = ArrayUtils.phase(outputField);
+        if (phaseSelected && hasReference) {
+
+            outputField4 = new float[M][2 * N];
+
+            for (int i = 0; i < M; i++) {
+                for (int j = 0; j < N; j++) {
+                    float a = outputField2[i][2 * j];
+                    float b = outputField2[i][2 * j + 1];
+                    float c = outputField3[i][2 * j];
+                    float d = outputField3[i][2 * j + 1];
+                    outputField4[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                    outputField4[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                }
+            }
+            float[][] phase = ArrayUtils.phase(outputField4);
 
             ImageProcessor ip = new FloatProcessor(phase);
-            if (phaseByteSelected){
+            if (phaseByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Phase" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
+        } else if (phaseSelected) {
+            float[][] phase = ArrayUtils.phase(outputField);
+
+            ImageProcessor ip = new FloatProcessor(phase);
+            if (phaseByteSelected) {
+                ip = ip.convertToByteProcessor();
+            }
+
+            ImagePlus imp = new ImagePlus("Phase" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+
         }
 
         if (amplitudeSelected) {
@@ -160,10 +235,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             if (amplitudeLogSelected) {
                 ip.log();
             }
-            if (amplitudeByteSelected){
+            if (amplitudeByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Amplitude" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -176,10 +251,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             if (intensityLogSelected) {
                 ip.log();
             }
-            if (intensityByteSelected){
+            if (intensityByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Intensity" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -189,10 +264,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             float[][] real = ArrayUtils.real(outputField);
 
             ImageProcessor ip = new FloatProcessor(real);
-            if (realByteSelected){
+            if (realByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Real" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -202,10 +277,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             float[][] imaginary = ArrayUtils.imaginary(outputField);
 
             ImageProcessor ip = new FloatProcessor(imaginary);
-            if (imaginaryByteSelected){
+            if (imaginaryByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Imaginary" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -332,6 +407,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
     public void setHologramAndReference(float[][] hologram, float[][] reference) {
         this.hologram = new float[M][N];
+        this.referenceSH = new float[M][N];
+        this.hologramSH = new float[M][N];
+        this.hasReference = true;
+
+        this.hologramSH = hologram;
+        this.referenceSH = reference;
 
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
@@ -342,6 +423,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
     public void setHologram(float[][] hologram, int contrastType) {
         this.hologram = new float[M][N];
+        this.hasReference = false;
 
         switch (contrastType) {
             case 0: //numerical
@@ -435,10 +517,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         this.realByteSelected = realByteSelected;
         this.imaginaryByteSelected = imaginaryByteSelected;
     }
-    
+
     public void setLogarithmicScaling(boolean amplitudeLogSelected,
-            boolean intensityLogSelected){
-        
+            boolean intensityLogSelected) {
+
         this.amplitudeLogSelected = amplitudeLogSelected;
         this.intensityLogSelected = intensityLogSelected;
     }
