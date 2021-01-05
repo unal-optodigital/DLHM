@@ -149,17 +149,17 @@ public class BatchWorker extends SwingWorker<Void, Void> {
 
             propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy,
                     dxOut, dyOut);
-            
-            if(amplitudeSelected||intensitySelected||realSelected||imaginarySelected){
 
-            outputField = new float[M][2 * N];
-            for (int i = 0; i < M; i++) {
-                System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+            if (amplitudeSelected || intensitySelected || realSelected || imaginarySelected || (phaseSelected && !hasReference)) {
+
+                outputField = new float[M][2 * N];
+                for (int i = 0; i < M; i++) {
+                    System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+                }
+
+                propagator.diffract(outputField);
             }
 
-            propagator.diffract(outputField);
-            }
-            
             if (phaseSelected && hasReference) {
 
                 //copies the interpolated field into a new array for the output field
@@ -175,7 +175,6 @@ public class BatchWorker extends SwingWorker<Void, Void> {
                 propagator.diffract(outputFieldReference);
 
                 //outputFieldPhase = divideFields(outputFieldHologram, outputFieldReference);
-
             }
 
             String label = "z = " + df.format(umToUnits(z))
@@ -190,20 +189,20 @@ public class BatchWorker extends SwingWorker<Void, Void> {
             //float[][] phase;
             //   if (hasReference) {
             if (phaseSelected && hasReference) {
-                
+
                 outputFieldPhase = new float[M][2 * N];
 
-            for (int i = 0; i < M; i++) {
-                for (int j = 0; j < N; j++) {
-                    float a = outputFieldHologram[i][2 * j];
-                    float b = outputFieldHologram[i][2 * j + 1];
-                    float c = outputFieldReference[i][2 * j];
-                    float d = outputFieldReference[i][2 * j + 1];
-                    outputFieldPhase[i][2 * j] = (a * c + b * d) / (c * c + d * d);
-                    outputFieldPhase[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                for (int i = 0; i < M; i++) {
+                    for (int j = 0; j < N; j++) {
+                        float a = outputFieldHologram[i][2 * j];
+                        float b = outputFieldHologram[i][2 * j + 1];
+                        float c = outputFieldReference[i][2 * j];
+                        float d = outputFieldReference[i][2 * j + 1];
+                        outputFieldPhase[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                        outputFieldPhase[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                    }
                 }
-            }
-                
+
                 float[][] phase = ArrayUtils.phase(outputFieldPhase);
 
                 ImageProcessor ip = new FloatProcessor(phase);

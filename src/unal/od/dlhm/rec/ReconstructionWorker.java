@@ -108,21 +108,22 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
         //calibration
         cal = parent.getCalibration();
-        
+
         //creates the propagator object
         propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
-        
+
         if (phaseSelected && hasReference) {
             //Correr para holo
-            
+
             if (!interpolated) {
                 if (filteringEnabled) {
-                    cosineFilter();
+                    hologramPhase = cosineFilter(hologramPhase);
+                    referencePhase = cosineFilter(referencePhase);
                 }
 
                 interpolatedHologram = propagator.interpolate(hologramPhase);
                 interpolatedReference = propagator.interpolate(referencePhase);
-                
+
                 parent.setInterpolatedHologramAndReference(interpolatedHologram, interpolatedReference);
             }
 
@@ -137,27 +138,26 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
             propagator.diffract(outputFieldHologram);
             propagator.diffract(outputFieldReference);
- 
+
         }
 
-        
-        if(amplitudeSelected||intensitySelected||realSelected||imaginarySelected){
-        if (!interpolated) {
-            if (filteringEnabled) {
-                cosineFilter();
+        if (amplitudeSelected || intensitySelected || realSelected || imaginarySelected || (phaseSelected && !hasReference)) {
+            if (!interpolated) {
+                if (filteringEnabled) {
+                    hologram = cosineFilter(hologram);
+                }
+
+                interpolatedField = propagator.interpolate(hologram);
+                parent.setInterpolatedField(interpolatedField);
             }
 
-            interpolatedField = propagator.interpolate(hologram);
-            parent.setInterpolatedField(interpolatedField);
-        }
+            //copies the interpolated field into a new array for the output field
+            outputField = new float[M][2 * N];
+            for (int i = 0; i < M; i++) {
+                System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+            }
 
-        //copies the interpolated field into a new array for the output field
-        outputField = new float[M][2 * N];
-        for (int i = 0; i < M; i++) {
-            System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
-        }
-
-        propagator.diffract(outputField);
+            propagator.diffract(outputField);
         }
         return null;
     }
@@ -300,7 +300,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         return ArrayUtils.scale(ArrayUtils.modulusSq(sphericalFront), max);
     }
 
-    private void cosineFilter() {
+    private float[][] cosineFilter(float[][] hologram) {
         int xBorder = (int) borderWidth * M;
         int yBorder = (int) borderWidth * N;
 
@@ -339,6 +339,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
                 }
             }
         }
+        return hologram;
     }
 
     private float average(float[][] hologram) {
@@ -360,7 +361,8 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         int xZones = (int) Math.ceil((float) M / averageZoneSize);
         int yZones = (int) Math.ceil((float) N / averageZoneSize);
 
-        float[][] averages = new float[xZones][yZones];
+        float[][] averages;
+        averages = new float[xZones][yZones];
 
         //number of data points in each zone
         int zonePoints = averageZoneSize * averageZoneSize;
@@ -406,7 +408,6 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             }
         }
     }
-    
 
     public void setHologram(float[][] hologram, int contrastType) {
         this.hologram = new float[M][N];
@@ -465,6 +466,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         interpolated = true;
         this.interpolatedField = field;
     }
+
     public void setFieldHologramAndReference(float[][] hologram, float[][] reference) {
         interpolated = true;
         this.interpolatedHologram = hologram;

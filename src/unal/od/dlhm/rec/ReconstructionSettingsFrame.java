@@ -391,6 +391,11 @@ public class ReconstructionSettingsFrame extends javax.swing.JFrame implements P
                 textFieldFocusGained(evt);
             }
         });
+        averageDimensionField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                averageDimensionFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout contrastPanelLayout = new javax.swing.GroupLayout(contrastPanel);
         contrastPanel.setLayout(contrastPanelLayout);
@@ -883,6 +888,10 @@ public class ReconstructionSettingsFrame extends javax.swing.JFrame implements P
     private void contrastRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrastRadioActionPerformed
         averageDimensionField.setEnabled(averageRadio.isSelected());
     }//GEN-LAST:event_contrastRadioActionPerformed
+
+    private void averageDimensionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_averageDimensionFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_averageDimensionFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox amplitudeByteChk;
