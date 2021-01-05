@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.rec;
 
 import ij.ImageListener;
@@ -47,7 +46,7 @@ import unal.od.dlhm.PreferencesKeys;
 public class ReconstructionFrame extends javax.swing.JFrame implements ImageListener, PreferencesKeys {
 
     private static final String TITLE = "DLHM Reconstruction";
-    private static final String LOG_HEADER = "Version 1.0 - April 2017";
+    private static final String LOG_HEADER = "Version 1.2 - January 2021";
     private static final String LOG_SEPARATOR = "\n---------------------------";
 
     //
@@ -110,6 +109,11 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
     //array for the interpolated field (useful for the +/- and batch operations)
     private float[][] interpolatedField;
 
+    //arrays for the interpolated hologram and reference for phase reconstruction
+    //(useful for the +/- and batch operations)
+    private float[][] interpolatedHologram, interpolatedReference;
+     
+    
     //arrays with the current opened images information
     private int[] windowsId;
     private String[] titles, titles2;
@@ -130,6 +134,9 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
     //frames
     private ReconstructionSettingsFrame settingsFrame = null;
     private BatchFrame batchFrame = null;
+
+    //hasReference
+    private boolean hasRef;
 
     // <editor-fold defaultstate="collapsed" desc="Prefs variables">
     //frame location
@@ -610,7 +617,7 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
             return false;
         }
 
-        boolean hasRef = !referenceTitle.equalsIgnoreCase("<none>");
+        hasRef = !referenceTitle.equalsIgnoreCase("<none>");
 
         if (hasRef) {
             ImagePlus holoImp = WindowManager.getImage(windowsId[holoIdx]);
@@ -927,6 +934,11 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
 
     public void setInterpolatedField(float[][] field) {
         interpolatedField = field;
+    }
+
+    public void setInterpolatedHologramAndReference(float[][] hologram, float[][] reference) {
+        interpolatedHologram = hologram;
+        interpolatedReference = reference;
     }
 
     /**
@@ -1616,6 +1628,9 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
         ReconstructionWorker worker = new ReconstructionWorker(this);
 
         worker.setField(interpolatedField);
+        if (phaseEnabled && hasRef) {
+            worker.setFieldHologramAndReference(interpolatedHologram, interpolatedReference);
+        }
         worker.setSize(M, N);
 
         boolean success = setParametersIncAndDec(worker, increment);
@@ -1636,6 +1651,9 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
         BatchWorker worker = new BatchWorker(this);
 
         worker.setField(interpolatedField);
+        if (phaseEnabled && hasRef) {
+            worker.setHologramAndReference(interpolatedHologram, interpolatedReference);
+        }
         worker.setSize(M, N);
 
         boolean success = setParametersBatch(worker);
@@ -1689,10 +1707,10 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
                 }
                 outH = outW / ratio;
                 outputHField.setText(df.format(outH));
-                
+
                 //requests focus to set the parameter
                 outputHField.requestFocusInWindow();
-                
+
                 //returns the focus to the relation lock button
                 lockBtn.requestFocusInWindow();
             } catch (NumberFormatException exc) {
@@ -1793,11 +1811,11 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
 
                 }
             }
-            
+
             //requests the focus to set the output size parameters
             outputWField.requestFocusInWindow();
             outputHField.requestFocusInWindow();
-            
+
             //requests focus again for the radio button
             manualRadio.requestFocusInWindow();
         }

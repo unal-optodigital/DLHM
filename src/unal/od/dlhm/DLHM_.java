@@ -144,7 +144,7 @@ public class DLHM_ implements PlugIn {
         IJ.getImage().getCanvas().zoomOut(0, 0);
         IJ.getImage().getCanvas().zoomOut(0, 0);
         IJ.getImage().getCanvas().zoomOut(0, 0);
-
+        /*
         String rute2 = "diatom.tif";
         File f2 = new File(rute2);
         System.out.println(f2.getAbsolutePath());
@@ -160,7 +160,7 @@ public class DLHM_ implements PlugIn {
         IJ.getImage().getCanvas().zoomOut(0, 0);
         IJ.getImage().getCanvas().zoomOut(0, 0);
         IJ.getImage().getCanvas().zoomOut(0, 0);
-        
+        */
         new DLHM_().run("");
         new DLHM_().run("simulation");
         new DLHM_().run("about");

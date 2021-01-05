@@ -42,12 +42,14 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private int averageZoneSize;
 
     //hologram field
-    private float[][] hologram, interpolatedField, outputField, outputField2, outputField3, outputField4;
+    private float[][] hologram, interpolatedField, outputField;
     private boolean interpolated;
 
-    //Reference & Hologram 
-    private float[][] referenceSH;
-    private float[][] hologramSH;
+    //Reference & Hologram for phase reconstruction
+    private float[][] referencePhase;
+    private float[][] hologramPhase;
+    private float[][] interpolatedHologram, interpolatedReference;
+    private float[][] outputFieldHologram, outputFieldReference, outputFieldPhase;
 
     private KirchhoffHelmholtz propagator;
 
@@ -106,56 +108,40 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
         //calibration
         cal = parent.getCalibration();
-
+        
+        //creates the propagator object
+        propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
+        
         if (phaseSelected && hasReference) {
             //Correr para holo
-
-            propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
-
+            
             if (!interpolated) {
                 if (filteringEnabled) {
                     cosineFilter();
                 }
 
-                interpolatedField = propagator.interpolate(hologramSH);
-                parent.setInterpolatedField(interpolatedField);
+                interpolatedHologram = propagator.interpolate(hologramPhase);
+                interpolatedReference = propagator.interpolate(referencePhase);
+                
+                parent.setInterpolatedHologramAndReference(interpolatedHologram, interpolatedReference);
             }
 
             //copies the interpolated field into a new array for the output field
-            outputField2 = new float[M][2 * N];
+            outputFieldHologram = new float[M][2 * N];
+            outputFieldReference = new float[M][2 * N];
 
             for (int i = 0; i < M; i++) {
-                System.arraycopy(interpolatedField[i], 0, outputField2[i], 0, 2 * N);
+                System.arraycopy(interpolatedHologram[i], 0, outputFieldHologram[i], 0, 2 * N);
+                System.arraycopy(interpolatedReference[i], 0, outputFieldReference[i], 0, 2 * N);
             }
 
-            propagator.diffract(outputField2);
-
-            //Correr para Ref
-            propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
-
-            if (!interpolated) {
-                if (filteringEnabled) {
-                    cosineFilter();
-                }
-
-                interpolatedField = propagator.interpolate(referenceSH);
-                parent.setInterpolatedField(interpolatedField);
-            }
-
-            //copies the interpolated field into a new array for the output field
-            outputField3 = new float[M][2 * N];
-
-            for (int i = 0; i < M; i++) {
-                System.arraycopy(interpolatedField[i], 0, outputField3[i], 0, 2 * N);
-            }
-
-            propagator.diffract(outputField3);
+            propagator.diffract(outputFieldHologram);
+            propagator.diffract(outputFieldReference);
+ 
         }
 
-        //creates the propagator object
-        propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy,
-                dxOut, dyOut);
-
+        
+        if(amplitudeSelected||intensitySelected||realSelected||imaginarySelected){
         if (!interpolated) {
             if (filteringEnabled) {
                 cosineFilter();
@@ -172,7 +158,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         }
 
         propagator.diffract(outputField);
-
+        }
         return null;
     }
 
@@ -192,19 +178,19 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 //                    amplitudeByteSelected ? ip2.convertToByteProcessor() : ip2);
         if (phaseSelected && hasReference) {
 
-            outputField4 = new float[M][2 * N];
+            outputFieldPhase = new float[M][2 * N];
 
             for (int i = 0; i < M; i++) {
                 for (int j = 0; j < N; j++) {
-                    float a = outputField2[i][2 * j];
-                    float b = outputField2[i][2 * j + 1];
-                    float c = outputField3[i][2 * j];
-                    float d = outputField3[i][2 * j + 1];
-                    outputField4[i][2 * j] = (a * c + b * d) / (c * c + d * d);
-                    outputField4[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                    float a = outputFieldHologram[i][2 * j];
+                    float b = outputFieldHologram[i][2 * j + 1];
+                    float c = outputFieldReference[i][2 * j];
+                    float d = outputFieldReference[i][2 * j + 1];
+                    outputFieldPhase[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                    outputFieldPhase[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
                 }
             }
-            float[][] phase = ArrayUtils.phase(outputField4);
+            float[][] phase = ArrayUtils.phase(outputFieldPhase);
 
             ImageProcessor ip = new FloatProcessor(phase);
             if (phaseByteSelected) {
@@ -407,12 +393,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
     public void setHologramAndReference(float[][] hologram, float[][] reference) {
         this.hologram = new float[M][N];
-        this.referenceSH = new float[M][N];
-        this.hologramSH = new float[M][N];
+        this.referencePhase = new float[M][N];
+        this.hologramPhase = new float[M][N];
         this.hasReference = true;
 
-        this.hologramSH = hologram;
-        this.referenceSH = reference;
+        this.hologramPhase = hologram;
+        this.referencePhase = reference;
 
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
@@ -420,6 +406,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             }
         }
     }
+    
 
     public void setHologram(float[][] hologram, int contrastType) {
         this.hologram = new float[M][N];
@@ -477,6 +464,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     public void setField(float[][] field) {
         interpolated = true;
         this.interpolatedField = field;
+    }
+    public void setFieldHologramAndReference(float[][] hologram, float[][] reference) {
+        interpolated = true;
+        this.interpolatedHologram = hologram;
+        this.interpolatedReference = reference;
+        this.hasReference = true;
     }
 
     public void setSize(int M, int N) {

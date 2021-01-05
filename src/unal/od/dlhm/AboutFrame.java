@@ -58,6 +58,9 @@ public class AboutFrame extends javax.swing.JFrame {
         raulLabel1 = new javax.swing.JLabel();
         devsLabel1 = new javax.swing.JLabel();
         webLabel = new javax.swing.JLabel();
+        devsLabel2 = new javax.swing.JLabel();
+        jorgeLabel1 = new javax.swing.JLabel();
+        jorgeLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("About DLHM");
@@ -70,7 +73,7 @@ public class AboutFrame extends javax.swing.JFrame {
         titleLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         titleLabel.setText("DLHM PlugIn");
 
-        versionLabel.setText("Version 1.0, April 2017");
+        versionLabel.setText("Version 1.2, January 2021");
 
         devsLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         devsLabel.setText("Developed by:");
@@ -79,8 +82,11 @@ public class AboutFrame extends javax.swing.JFrame {
 
         jorgeLabel.setText("Jorge Garcia-Sucerquia");
 
+        groupLabel.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        groupLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         groupLabel.setText("Opto-digital Processing Group");
 
+        univLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         univLabel.setText("Universidad Nacional de Colombia - Sede Medellín");
 
         closeBtn.setText("Close");
@@ -95,6 +101,7 @@ public class AboutFrame extends javax.swing.JFrame {
         devsLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         devsLabel1.setText("License pending");
 
+        webLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         webLabel.setText("<html><a href=\\\"\\\">https://unal-optodigital.github.io/DLHM/</a></html>");
         webLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         webLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -103,46 +110,60 @@ public class AboutFrame extends javax.swing.JFrame {
             }
         });
 
+        devsLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        devsLabel2.setText("Contribuitors:");
+
+        jorgeLabel1.setText("Heberley Tobón-Maya");
+
+        jorgeLabel2.setText("Samuel Zapata-Valencia");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(logoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(webLabel)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(versionLabel)
                             .addComponent(titleLabel)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(closeBtn, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(devsLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jorgeLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(devsLabel)
                                     .addComponent(raulLabel)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jorgeLabel)
-                                                .addComponent(groupLabel))
-                                            .addGap(68, 68, 68))
-                                        .addComponent(univLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addComponent(raulLabel1))
-                                .addComponent(devsLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(raulLabel1)
+                                    .addComponent(jorgeLabel2)
+                                    .addComponent(jorgeLabel)
+                                    .addComponent(devsLabel2))
+                                .addGap(18, 18, 18)
+                                .addComponent(logoLabel)))
+                        .addContainerGap(19, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(univLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(groupLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(closeBtn)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
+                .addComponent(titleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logoLabel)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(titleLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(versionLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(devsLabel1)
@@ -155,14 +176,21 @@ public class AboutFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jorgeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(groupLabel)
+                        .addComponent(devsLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(univLabel)))
+                        .addComponent(jorgeLabel2))
+                    .addComponent(logoLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jorgeLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(groupLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(univLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(webLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(closeBtn)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -190,8 +218,11 @@ public class AboutFrame extends javax.swing.JFrame {
     private javax.swing.JButton closeBtn;
     private javax.swing.JLabel devsLabel;
     private javax.swing.JLabel devsLabel1;
+    private javax.swing.JLabel devsLabel2;
     private javax.swing.JLabel groupLabel;
     private javax.swing.JLabel jorgeLabel;
+    private javax.swing.JLabel jorgeLabel1;
+    private javax.swing.JLabel jorgeLabel2;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel raulLabel;
     private javax.swing.JLabel raulLabel1;
