@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.rec;
 
 import ij.ImagePlus;
@@ -46,6 +45,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private float[][] hologram, interpolatedField, outputField;
     private boolean interpolated;
 
+    //Reference & Hologram for phase reconstruction
+    private float[][] referencePhase;
+    private float[][] hologramPhase;
+    private float[][] interpolatedHologram, interpolatedReference;
+    private float[][] outputFieldHologram, outputFieldReference, outputFieldPhase;
+
     private KirchhoffHelmholtz propagator;
 
     //selected outputs
@@ -54,7 +59,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private boolean intensitySelected;
     private boolean realSelected;
     private boolean imaginarySelected;
-    
+
     //log scaling booleans
     private boolean amplitudeLogSelected;
     private boolean intensityLogSelected;
@@ -65,9 +70,11 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     private boolean intensityByteSelected;
     private boolean realByteSelected;
     private boolean imaginaryByteSelected;
-    
+
     //
     boolean filteringEnabled;
+    boolean hasReference;
+    boolean hasHologram;
 
     //
     private Calibration cal;
@@ -103,26 +110,55 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         cal = parent.getCalibration();
 
         //creates the propagator object
-        propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy,
-                dxOut, dyOut);
+        propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy, dxOut, dyOut);
 
-        if (!interpolated) {
-            if (filteringEnabled) {
-                cosineFilter();
+        if (phaseSelected && hasReference) {
+            //Correr para holo
+
+            if (!interpolated) {
+                if (filteringEnabled) {
+                    hologramPhase = cosineFilter(hologramPhase);
+                    referencePhase = cosineFilter(referencePhase);
+                }
+
+                interpolatedHologram = propagator.interpolate(hologramPhase);
+                interpolatedReference = propagator.interpolate(referencePhase);
+
+                parent.setInterpolatedHologramAndReference(interpolatedHologram, interpolatedReference);
             }
 
-            interpolatedField = propagator.interpolate(hologram);
-            parent.setInterpolatedField(interpolatedField);
+            //copies the interpolated field into a new array for the output field
+            outputFieldHologram = new float[M][2 * N];
+            outputFieldReference = new float[M][2 * N];
+
+            for (int i = 0; i < M; i++) {
+                System.arraycopy(interpolatedHologram[i], 0, outputFieldHologram[i], 0, 2 * N);
+                System.arraycopy(interpolatedReference[i], 0, outputFieldReference[i], 0, 2 * N);
+            }
+
+            propagator.diffract(outputFieldHologram);
+            propagator.diffract(outputFieldReference);
+
         }
 
-        //copies the interpolated field into a new array for the output field
-        outputField = new float[M][2 * N];
-        for (int i = 0; i < M; i++) {
-            System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+        if (amplitudeSelected || intensitySelected || realSelected || imaginarySelected || (phaseSelected && !hasReference)) {
+            if (!interpolated) {
+                if (filteringEnabled) {
+                    hologram = cosineFilter(hologram);
+                }
+
+                interpolatedField = propagator.interpolate(hologram);
+                parent.setInterpolatedField(interpolatedField);
+            }
+
+            //copies the interpolated field into a new array for the output field
+            outputField = new float[M][2 * N];
+            for (int i = 0; i < M; i++) {
+                System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+            }
+
+            propagator.diffract(outputField);
         }
-
-        propagator.diffract(outputField);
-
         return null;
     }
 
@@ -140,17 +176,42 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
 //        ImagePlus imp2 = new ImagePlus("Amplitude; z = " + parameters[3] + names,
 //                    amplitudeByteSelected ? ip2.convertToByteProcessor() : ip2);
-        if (phaseSelected) {
-            float[][] phase = ArrayUtils.phase(outputField);
+        if (phaseSelected && hasReference) {
+
+            outputFieldPhase = new float[M][2 * N];
+
+            for (int i = 0; i < M; i++) {
+                for (int j = 0; j < N; j++) {
+                    float a = outputFieldHologram[i][2 * j];
+                    float b = outputFieldHologram[i][2 * j + 1];
+                    float c = outputFieldReference[i][2 * j];
+                    float d = outputFieldReference[i][2 * j + 1];
+                    outputFieldPhase[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                    outputFieldPhase[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                }
+            }
+            float[][] phase = ArrayUtils.phase(outputFieldPhase);
 
             ImageProcessor ip = new FloatProcessor(phase);
-            if (phaseByteSelected){
+            if (phaseByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Phase" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
+        } else if (phaseSelected) {
+            float[][] phase = ArrayUtils.phase(outputField);
+
+            ImageProcessor ip = new FloatProcessor(phase);
+            if (phaseByteSelected) {
+                ip = ip.convertToByteProcessor();
+            }
+
+            ImagePlus imp = new ImagePlus("Phase" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+
         }
 
         if (amplitudeSelected) {
@@ -160,10 +221,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             if (amplitudeLogSelected) {
                 ip.log();
             }
-            if (amplitudeByteSelected){
+            if (amplitudeByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Amplitude" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -176,10 +237,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             if (intensityLogSelected) {
                 ip.log();
             }
-            if (intensityByteSelected){
+            if (intensityByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Intensity" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -189,10 +250,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             float[][] real = ArrayUtils.real(outputField);
 
             ImageProcessor ip = new FloatProcessor(real);
-            if (realByteSelected){
+            if (realByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Real" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -202,10 +263,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
             float[][] imaginary = ArrayUtils.imaginary(outputField);
 
             ImageProcessor ip = new FloatProcessor(imaginary);
-            if (imaginaryByteSelected){
+            if (imaginaryByteSelected) {
                 ip = ip.convertToByteProcessor();
             }
-            
+
             ImagePlus imp = new ImagePlus("Imaginary" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
@@ -239,7 +300,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         return ArrayUtils.scale(ArrayUtils.modulusSq(sphericalFront), max);
     }
 
-    private void cosineFilter() {
+    private float[][] cosineFilter(float[][] hologram) {
         int xBorder = (int) borderWidth * M;
         int yBorder = (int) borderWidth * N;
 
@@ -278,6 +339,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
                 }
             }
         }
+        return hologram;
     }
 
     private float average(float[][] hologram) {
@@ -299,7 +361,8 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         int xZones = (int) Math.ceil((float) M / averageZoneSize);
         int yZones = (int) Math.ceil((float) N / averageZoneSize);
 
-        float[][] averages = new float[xZones][yZones];
+        float[][] averages;
+        averages = new float[xZones][yZones];
 
         //number of data points in each zone
         int zonePoints = averageZoneSize * averageZoneSize;
@@ -332,9 +395,15 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
     public void setHologramAndReference(float[][] hologram, float[][] reference) {
         this.hologram = new float[M][N];
+        this.referencePhase = new float[M][N];
+        this.hologramPhase = new float[M][N];
+        this.hasReference = true;
+
+        this.hologramPhase = hologram;
+        this.referencePhase = reference;
 
         for (int i = 0; i < M; i++) {
-            for (int j = 0; j < M; j++) {
+            for (int j = 0; j < N; j++) {
                 this.hologram[i][j] = hologram[i][j] - reference[i][j];
             }
         }
@@ -342,6 +411,7 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
 
     public void setHologram(float[][] hologram, int contrastType) {
         this.hologram = new float[M][N];
+        this.hasReference = false;
 
         switch (contrastType) {
             case 0: //numerical
@@ -359,6 +429,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
                 // if the averageZoneSize is equal to 1 or is greater than
                 // the minimum size of the image just takes the average of all
                 // the image
+                
+// PROBLEM AVG: PUT GUARD TO PREVENT ERROR
+                if (averageZoneSize == 0) {
+                    throw new IllegalStateException("Average zone size must be set before setting the hologram");
+                }
+                
 
                 if (averageZoneSize == -1) { //average of all image
 
@@ -395,6 +471,13 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
     public void setField(float[][] field) {
         interpolated = true;
         this.interpolatedField = field;
+    }
+
+    public void setFieldHologramAndReference(float[][] hologram, float[][] reference) {
+        interpolated = true;
+        this.interpolatedHologram = hologram;
+        this.interpolatedReference = reference;
+        this.hasReference = true;
     }
 
     public void setSize(int M, int N) {
@@ -435,10 +518,10 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
         this.realByteSelected = realByteSelected;
         this.imaginaryByteSelected = imaginaryByteSelected;
     }
-    
+
     public void setLogarithmicScaling(boolean amplitudeLogSelected,
-            boolean intensityLogSelected){
-        
+            boolean intensityLogSelected) {
+
         this.amplitudeLogSelected = amplitudeLogSelected;
         this.intensityLogSelected = intensityLogSelected;
     }

@@ -406,8 +406,8 @@ public class BatchFrame extends javax.swing.JFrame implements PreferencesKeys {
 
         if (planes > maxPlanes) {
             String[] options = new String[]{"Yes", "No"};
-            int n = JOptionPane.showOptionDialog(this, "More than " + maxPlanes
-                    + " planes are going to be reconstructed. Do you want to"
+            int n = JOptionPane.showOptionDialog(this, planes
+                    + " planes are going to be reconstructed. Do you want to "
                     + "continue?", "", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 

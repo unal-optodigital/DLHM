@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.rec;
 
 import ij.IJ;
@@ -52,7 +51,14 @@ public class BatchWorker extends SwingWorker<Void, Void> {
     private boolean outputFixed;
 
     //hologram field
-    private float[][] interpolatedField;
+    private float[][] outputField, interpolatedField;
+
+    //hologram and reference for phase reconstruction
+    private float[][] interpolatedHologram, interpolatedReference;
+    private float[][] outputFieldHologram, outputFieldReference, outputFieldPhase;
+
+    //has reference
+    private boolean hasReference = false;
 
     private KirchhoffHelmholtz propagator;
 
@@ -144,12 +150,32 @@ public class BatchWorker extends SwingWorker<Void, Void> {
             propagator = new KirchhoffHelmholtz(M, N, lambda, z, L, dx, dy,
                     dxOut, dyOut);
 
-            float[][] outputField = new float[M][2 * N];
-            for (int i = 0; i < M; i++) {
-                System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+            if (amplitudeSelected || intensitySelected || realSelected || imaginarySelected || (phaseSelected && !hasReference)) {
+
+                outputField = new float[M][2 * N];
+                for (int i = 0; i < M; i++) {
+                    System.arraycopy(interpolatedField[i], 0, outputField[i], 0, 2 * N);
+                }
+
+                propagator.diffract(outputField);
             }
 
-            propagator.diffract(outputField);
+            if (phaseSelected && hasReference) {
+
+                //copies the interpolated field into a new array for the output field
+                outputFieldHologram = new float[M][2 * N];
+                outputFieldReference = new float[M][2 * N];
+
+                for (int i = 0; i < M; i++) {
+                    System.arraycopy(interpolatedHologram[i], 0, outputFieldHologram[i], 0, 2 * N);
+                    System.arraycopy(interpolatedReference[i], 0, outputFieldReference[i], 0, 2 * N);
+                }
+
+                propagator.diffract(outputFieldHologram);
+                propagator.diffract(outputFieldReference);
+
+                //outputFieldPhase = divideFields(outputFieldHologram, outputFieldReference);
+            }
 
             String label = "z = " + df.format(umToUnits(z))
                     + " " + reconstructionUnits;
@@ -159,11 +185,40 @@ public class BatchWorker extends SwingWorker<Void, Void> {
                         + df.format(N * dyOut) + " um";
             }
 
-            if (phaseSelected) {
+            //if (phaseSelected) {
+            //float[][] phase;
+            //   if (hasReference) {
+            if (phaseSelected && hasReference) {
+
+                outputFieldPhase = new float[M][2 * N];
+
+                for (int i = 0; i < M; i++) {
+                    for (int j = 0; j < N; j++) {
+                        float a = outputFieldHologram[i][2 * j];
+                        float b = outputFieldHologram[i][2 * j + 1];
+                        float c = outputFieldReference[i][2 * j];
+                        float d = outputFieldReference[i][2 * j + 1];
+                        outputFieldPhase[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                        outputFieldPhase[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+                    }
+                }
+
+                float[][] phase = ArrayUtils.phase(outputFieldPhase);
+
+                ImageProcessor ip = new FloatProcessor(phase);
+                //ip.setMinAndMax(-Math.PI, Math.PI);
+
+                if (phaseByteSelected) {
+                    ip = ip.convertToByteProcessor();
+                }
+
+                phaseStack.addSlice(label, ip);
+            } else if (phaseSelected) {
                 float[][] phase = ArrayUtils.phase(outputField);
 
                 ImageProcessor ip = new FloatProcessor(phase);
                 ip.setMinAndMax(-Math.PI, Math.PI);
+
                 if (phaseByteSelected) {
                     ip = ip.convertToByteProcessor();
                 }
@@ -300,8 +355,33 @@ public class BatchWorker extends SwingWorker<Void, Void> {
         return n;
     }
 
+    //Divide complex fields
+    //propagate hologram divided by propagate reference
+    private float[][] divideFields(float[][] hologramField, float[][] referenceField) {
+        float[][] outputField = new float[M][2 * N];
+        //Divide complex fields
+        //propagate hologram divided by propagate reference
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+                float a = hologramField[i][2 * j];
+                float b = hologramField[i][2 * j + 1];
+                float c = referenceField[i][2 * j];
+                float d = referenceField[i][2 * j + 1];
+                outputField[i][2 * j] = (a * c + b * d) / (c * c + d * d);
+                outputField[i][2 * j + 1] = (b * c - a * d) / (c * c + d * d);
+            }
+        }
+        return outputField;
+    }
+
     public void setField(float[][] field) {
         this.interpolatedField = field;
+    }
+
+    public void setHologramAndReference(float[][] hologram, float[][] reference) {
+        this.interpolatedHologram = hologram;
+        this.interpolatedReference = reference;
+        this.hasReference = true;
     }
 
     public void setSize(int M, int N) {
@@ -362,4 +442,5 @@ public class BatchWorker extends SwingWorker<Void, Void> {
         this.namesSuffix = "; Holo: " + parameters[0] + "; Ref: " + parameters[1];
         this.reconstructionUnits = reconstructionUnits;
     }
+
 }
