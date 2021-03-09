@@ -640,6 +640,8 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
             }
 
             worker.setSize(M, N);
+            // PROBLEM NUM: SET_PARAMETERS NEED TO BE CALLED AFTER SET_SIZE AND BEFORE SET_HOLOGRAM
+            setParameters(worker);
             worker.setHologramAndReference(hologram, reference);
 
         } else {
@@ -651,11 +653,12 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
             N = holoIp.getHeight();
 
             worker.setSize(M, N);
+            // PROBLEM NUM: SET_PARAMETERS NEED TO BE CALLED AFTER SET_SIZE AND BEFORE SET_HOLOGRAM
+            setParameters(worker);
+            // PROBLEM AVG: SET AVERAGE ZONE SIZE BEFORE SETTING THE HOLOGRAM
+            worker.setAverageZoneSize(averageDimension);
             worker.setHologram(hologram, contrastType);
 
-            if (contrastType == 1) {
-                worker.setAverageZoneSize(averageDimension);
-            }
         }
 
         return true;
@@ -1770,12 +1773,9 @@ public class ReconstructionFrame extends javax.swing.JFrame implements ImageList
         if (!success) {
             return;
         }
-
-        success = setParameters(worker);
-        if (!success) {
-            return;
-        }
-
+        
+        // PROBLEM NUM: SET_PARAMETERS NEED TO BE CALLED AFTER SET_SIZE AND BEFORE SET_HOLOGRAM
+        
         worker.execute();
     }//GEN-LAST:event_reconstructBtnActionPerformed
 

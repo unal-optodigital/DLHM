@@ -429,6 +429,12 @@ public class ReconstructionWorker extends SwingWorker<Void, Void> {
                 // if the averageZoneSize is equal to 1 or is greater than
                 // the minimum size of the image just takes the average of all
                 // the image
+                
+// PROBLEM AVG: PUT GUARD TO PREVENT ERROR
+                if (averageZoneSize == 0) {
+                    throw new IllegalStateException("Average zone size must be set before setting the hologram");
+                }
+                
 
                 if (averageZoneSize == -1) { //average of all image
 
