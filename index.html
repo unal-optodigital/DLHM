@@ -27,13 +27,55 @@
   </script>
 </head>
 
+<style>
+  .container {
+    position: relative;
+    width: 50%;
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #008CBA;
+  }
+
+  .container:hover .overlay {
+    opacity: 1;
+  }
+
+  .text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+</style>
+
 <body>
   <section class="page-header">
     <h1 class="project-name">Digital Lensless Holographic Microscopy</h1>
     <h2 class="project-tagline">Digital Lensless Holographic Microscopy plugin for ImageJ.</h2>
     <a href="https://github.com/unal-optodigital/DLHM" class="btn">View on GitHub</a>
-    <a href="https://drive.google.com/file/d/1agsXN9WqC8uR9E42U0-2xWzaiMwjl93_/view?usp=sharing" class="btn">Download .jar</a>
-    <a href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing" class="btn">Download .rar</a>
+    <a href="https://drive.google.com/file/d/1-Pp78zflVXOSH2jLV8e2qzhf2D79lcrC/view?usp=sharing" class="btn">Download
+      .jar</a>
+    <a href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing" class="btn">Download
+      .rar</a>
   </section>
 
   <section class="main-content">
@@ -116,8 +158,12 @@
 
       <ul>
         <!-- Falta colocar bien los links -->
-        <li><a href="https://drive.google.com/file/d/1agsXN9WqC8uR9E42U0-2xWzaiMwjl93_/view?usp=sharing">DLHM_1.2.jar</a></li>
-        <li><a href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing">DLHM_1.2-libs.rar</a></li>
+        <li><a
+            href="https://drive.google.com/file/d/1-Pp78zflVXOSH2jLV8e2qzhf2D79lcrC/view?usp=sharing">DLHM_1.2.jar</a>
+        </li>
+        <li><a
+            href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing">DLHM_1.2-libs.rar</a>
+        </li>
       </ul>
 
 
@@ -149,6 +195,55 @@
 
     <hr>
 
+    <!-- CHANGES -->
+    <div class="changes">
+      <h3>
+        <a id="changes" class="anchor" href="#changes" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Changes
+      </h3>
+
+      <!-- Version 1.2 -->
+      <div>
+        <h4>
+          What's new? Obviously, LESS BUGS!
+        </h4>
+
+
+        
+        <div class="container">
+          <img src="images/Bugs-Holo.jpg" alt="Avatar" class="image">
+          <div class="overlay">
+            <img src="images/Bugs-Rec.jpg" alt="Avatar" class="image">
+          </div>
+        </div>
+        <h4>
+          Version 1.2, 2021/01
+        </h4>
+        <ul>
+
+          <li>Now it is possible to reconstruct non-square images.</li>
+          <li>A single step phase recover algorithm was implemented for the
+            reconstruction process with hologram and reference.</li>
+          <li>The bugs in the calculation of the contrast hologram through
+            the numerical method and the moving averages were fixed.</li>
+        </ul>
+      </div>
+
+      <!-- Version 1.0 -->
+      <div>
+        <h4>
+          Version 1.0, 2017/04
+        </h4>
+
+        <ul>
+          <li>Initial release.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr>
+
     <!-- EXAMPLES -->
     <div class="examples">
 
@@ -158,8 +253,12 @@
       </h3>
 
       <p>
-        Different examples of the use of the DLHM plugin are presented. All input/output raw image files presented in
-        the
+        The DLHM plugin is composed of 2 different modules, below we will show how to use
+        each of them through a practical example. We are going to generate a diatom algae hologram
+        in the simulation module and later we are going to use the reconstruction module to recover
+        the original information.
+        <hr>
+        All input/output raw image files presented in the
         folowing examples can be downloaded <a
           href="https://drive.google.com/open?id=1yNMc6ELA1K6B4FNLQJOmlMV8VEpQUVpn">here</a>.
       </p>
@@ -173,7 +272,7 @@
 
         <p align="center">
           <img src="images/diatom.jpg" style="width:300px">
-          <img src="images/simulation_parameter_diatom.JPG" style="width:500px">
+          <img src="images/simulation_parameter_diatom.JPG" style="width:425px">
           <img src="images/diatom_hologram.jpg" style="width:300px">
           <img src="images/diatom_reference.jpg" style="width:300px">
         </p>
@@ -183,12 +282,12 @@
           (Bottom-right) Modeled reference.
         </p>
 
-        <p>
+        <h4>
           DLHM reconstruction of the previously modeled diatom algae hologram.
-        </p>
+        </h4>
 
         <p align="center">
-          <img src="images/reconstruction_parameter_diatom.JPG" style="width:500px">
+          <img src="images/reconstruction_parameter_diatom.JPG" style="width:425px">
           <img src="images/diatom_reconctruction.jpg" style="width:300px">
         </p>
 
@@ -215,8 +314,8 @@
 
         <p align="center">
           <img src="images/(zoom-in)test3_1867nm_500nm.JPG" style="width:300px">
-          <img src="images/simulation_parameter_TwoStops.JPG" style="width:500px">
-          <img src="images/reconstruction_parameter_TwoStops.JPG" style="width:500px">
+          <img src="images/simulation_parameter_TwoStops.JPG" style="width:425px">
+          <img src="images/reconstruction_parameter_TwoStops.JPG" style="width:425px">
         </p>
 
         <p align="center">
@@ -251,7 +350,7 @@
         <p align="center">
           <img src="images/c0025.jpg" style="width:300px">
           <img src="images/c0039.jpg" style="width:300px">
-          <img src="images/OneMicrorganism_ReconstructionParameters.jpg" style="width:500px">
+          <img src="images/OneMicrorganism_ReconstructionParameters.jpg" style="width:425px">
           <img src="images/OneMicrorganism_Intensity.jpg" style="width:300px">
         </p>
 
@@ -272,7 +371,7 @@
         <p align="center">
           <img src="images/f0010.jpg" style="width:300px">
           <img src="images/d0002.jpg" style="width:300px">
-          <img src="images/4Microorganisms_ReconstructionParameters.JPG" style="width:500px">
+          <img src="images/4Microorganisms_ReconstructionParameters.JPG" style="width:425px">
           <img src="images/Recon(Intensity)a0031(multi-file)-depth(485.60).jpg" style="width:300px">
         </p>
 
@@ -294,7 +393,7 @@
         <p align="center">
           <img src="images/G4_fly.bmp" style="width:300px">
           <img src="images/GREF4_fly.bmp" style="width:300px">
-          <img src="images/Fly_ReconstructionParameters.JPG" style="width:500px">
+          <img src="images/Fly_ReconstructionParameters.JPG" style="width:425px">
           <img src="images/Fly_IntensityReconstruction.jpg" style="width:300px">
         </p>
 
@@ -302,51 +401,6 @@
           (Top-left) Experimental DLHM hologram of drosophila melanogaster fly. (Top-right) Experimental DLHM reference
           hologram. (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
         </p>
-      </div>
-
-    </div>
-
-    <hr>
-
-    <!-- CHANGES -->
-    <div class="changes">
-      <h3>
-        <a id="changes" class="anchor" href="#changes" aria-hidden="true"><span
-            class="octicon octicon-link"></span></a>Changes
-      </h3>
-
-      <!-- Version 1.2 -->
-      <div>
-        <h4>
-          Version 1.2, 2021/01
-        </h4>
-
-        <ul>
-          <li>Third release.</li>
-          <p>Were added the phase reconstruction bla bla bla</p>
-        </ul>
-      </div>
-
-      <!-- Version 1.1 -->
-      <div>
-        <h4>
-          Version 1.1, 2020/05
-        </h4>
-
-        <ul>
-          <li>Second release.</li>
-        </ul>
-      </div>
-
-      <!-- Version 1.0 -->
-      <div>
-        <h4>
-          Version 1.0, 2017/04
-        </h4>
-
-        <ul>
-          <li>Initial release.</li>
-        </ul>
       </div>
 
     </div>
@@ -422,10 +476,9 @@
       </h3>
 
       <ul>
-        <li>Carlos A. Buitrago-Duque (<a href="mailto:cabuitragod@unal.edu.co">cabuitragod@unal.edu.co</a>)</li>
         <li>Heberley Tobon-Maya (<a href="mailto:htobonm@unal.edu.co">htobonm@unal.edu.co</a>)</li>
         <li>Samuel I. Zapata-Valencia (<a href="mailto:sizapatav@unal.edu.co">sizapatav@unal.edu.co</a>)</li>
-
+        <li>Carlos A. Buitrago-Duque (<a href="mailto:cabuitragod@unal.edu.co">cabuitragod@unal.edu.co</a>)</li>
       </ul>
 
     </div>
