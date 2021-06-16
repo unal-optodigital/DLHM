@@ -1,46 +1,98 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Digital Lensless Holographic Microscopy by unal-optodigital</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Lensless Holographic Microscopy by unal-optodigital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  <link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	  
-	  ga('create', 'UA-62159256-3', 'auto');
-	  ga('send', 'pageview');
+  <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
 
-	</script>
-  </head>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Digital Lensless Holographic Microscopy</h1>
-      <h2 class="project-tagline">Digital Lensless Holographic Microscopy plugin for ImageJ.</h2>
-      <a href="https://github.com/unal-optodigital/DLHM" class="btn">View on GitHub</a>
-      <a href="https://drive.google.com/open?id=1jHsy5yCR33wfjBg-UBoLbuqSgg-eCLJy" class="btn">Download .jar</a>
-      <a href="https://drive.google.com/open?id=1WQHH8z_-mm2M42RAcqvUOJHlbmbCuiEO" class="btn">Download .rar</a>
-    </section>
+    ga('create', 'UA-62159256-3', 'auto');
+    ga('send', 'pageview');
 
-    <section class="main-content">
+  </script>
+</head>
+
+<style>
+  .container {
+    position: relative;
+    width: 50%;
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #008CBA;
+  }
+
+  .container:hover .overlay {
+    opacity: 1;
+  }
+
+  .text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+</style>
+
+<body>
+  <section class="page-header">
+    <h1 class="project-name">Digital Lensless Holographic Microscopy</h1>
+    <h2 class="project-tagline">Digital Lensless Holographic Microscopy plugin for ImageJ.</h2>
+    <a href="https://github.com/unal-optodigital/DLHM" class="btn">View on GitHub</a>
+    <a href="https://drive.google.com/file/d/1-Pp78zflVXOSH2jLV8e2qzhf2D79lcrC/view?usp=sharing" class="btn">Download
+      .jar</a>
+    <a href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing" class="btn">Download
+      .rar</a>
+  </section>
+
+  <section class="main-content">
+    <div class="main">
+
       <p>
-				Digital Lens-less Holographic Microscopy is a plugin developed to work on the well-known software for image processing <a href="http://imagej.nih.gov/ij/index.html" target="_blank">ImageJ</a>. This plugin enables the numerical simulation and reconstruction of digitally recorded holograms of digital lens-less holographic microscopy. The plugin can be used for teaching and research purposes.
+        Digital Lens-less Holographic Microscopy is a plugin developed to work on the well-known software for image
+        processing <a href="http://imagej.nih.gov/ij/index.html" target="_blank">ImageJ</a>. This plugin enables the
+        numerical simulation and reconstruction of digitally recorded holograms of digital lens-less holographic
+        microscopy. The plugin can be used for teaching and research purposes.
       </p>
 
       <p>
         If you are using the plugin and find a bug, please <a href="#contact">contact us</a>.
       </p>
+
+    </div>
 
     <!--
       <hr>
@@ -53,32 +105,67 @@
       </ul>
     -->
 
-      <hr>
+    <hr>
+    <!-- INSTALLATION -->
+    <div class="installation">
+
       <h3>
-        <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation
+        <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Installation
       </h3>
 
       <p>
-        The installation process is the standard for any ImageJ plugin, download the ".rar" file that includes the needed libraries and extract its contents under the <code>imagej/plugins</code> folder. Please make sure you are running ImageJ 1.48s or superior.
+        The installation process is the standard for any ImageJ plugin, download the ".rar" file that includes the
+        needed libraries and extract its contents under the <code>imagej/plugins</code> folder. Please make sure you are
+        running ImageJ 1.48s or superior.
       </p>
 
-      <hr>
+    </div>
+
+    <hr>
+    <!-- MANUAL -->
+    <div class="manual">
+
       <h3>
-        <a id="manual" class="anchor" href="#manual" aria-hidden="true"><span class="octicon octicon-link"></span></a>Manual
+        <a id="manual" class="anchor" href="#manual" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Manual
       </h3>
-			
+
       <h4>
         Current release
       </h4>
 
       <ul>
-        <li><a href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM-manual_v1.0.pdf" target="_blank">Version 1.0</a></li>
+        <li><a
+            href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM-manual_v1.0.pdf"
+            target="_blank">Version 1.0</a></li>
       </ul>
 
-      <hr>
+    </div>
+
+    <hr>
+    <!-- DOWNLOADS -->
+    <div class="downloads">
+
       <h3>
-        <a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloads
+        <a id="downloads" class="anchor" href="#downloads" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Downloads
       </h3>
+
+      <h4>
+        Third release
+      </h4>
+
+      <ul>
+        <!-- Falta colocar bien los links -->
+        <li><a
+            href="https://drive.google.com/file/d/1-Pp78zflVXOSH2jLV8e2qzhf2D79lcrC/view?usp=sharing">DLHM_1.2.jar</a>
+        </li>
+        <li><a
+            href="https://drive.google.com/file/d/1RBmpqAbyP8xz170bOnNPiQ4u4TuLRQMg/view?usp=sharing">DLHM_1.2-libs.rar</a>
+        </li>
+      </ul>
+
 
       <h4>
         Second release
@@ -86,179 +173,288 @@
 
       <ul>
         <li><a href="https://drive.google.com/open?id=1jHsy5yCR33wfjBg-UBoLbuqSgg-eCLJy">DLHM_1.1.jar</a></li>
-	<li><a href="https://drive.google.com/open?id=1WQHH8z_-mm2M42RAcqvUOJHlbmbCuiEO">DLHM_1.1-libs.rar</a></li>
+        <li><a href="https://drive.google.com/open?id=1WQHH8z_-mm2M42RAcqvUOJHlbmbCuiEO">DLHM_1.1-libs.rar</a></li>
         <!-- <li><a href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/manual_np_1.1.pdf">manual_np_1.2.pdf</a></li> -->
       </ul>
-	    
+
       <h4>
         Current release
       </h4>
 
       <ul>
-        <li><a href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM_1.0.jar">DLHM_1.0.jar</a></li>
-        <li><a href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM-1.0-libs.zip">DLHM_1.0-libs.zip</a></li>
+        <li><a
+            href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM_1.0.jar">DLHM_1.0.jar</a>
+        </li>
+        <li><a
+            href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/downloads/dlhm/DLHM-1.0-libs.zip">DLHM_1.0-libs.zip</a>
+        </li>
         <!-- <li><a href="http://ciencias.medellin.unal.edu.co/gruposdeinvestigacion/opticayprocesamientooptodigital/manual_np_1.1.pdf">manual_np_1.2.pdf</a></li> -->
       </ul>
 
-      <hr>
+    </div>
+
+    <hr>
+
+    <!-- CHANGES -->
+    <div class="changes">
       <h3>
-        <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples
+        <a id="changes" class="anchor" href="#changes" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Changes
+      </h3>
+
+      <!-- Version 1.2 -->
+      <div>
+        <h4>
+          What's new? Obviously, LESS BUGS!
+        </h4>
+
+
+        
+        <div class="container">
+          <img src="images/Bugs-Holo.jpg" alt="Avatar" class="image">
+          <div class="overlay">
+            <img src="images/Bugs-Rec.jpg" alt="Avatar" class="image">
+          </div>
+        </div>
+        <h4>
+          Version 1.2, 2021/01
+        </h4>
+        <ul>
+
+          <li>Now it is possible to reconstruct non-square images.</li>
+          <li>A single step phase recover algorithm was implemented for the
+            reconstruction process with hologram and reference.</li>
+          <li>The bugs in the calculation of the contrast hologram through
+            the numerical method and the moving averages were fixed.</li>
+        </ul>
+      </div>
+
+      <!-- Version 1.0 -->
+      <div>
+        <h4>
+          Version 1.0, 2017/04
+        </h4>
+
+        <ul>
+          <li>Initial release.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <!-- EXAMPLES -->
+    <div class="examples">
+
+      <h3>
+        <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Examples
       </h3>
 
       <p>
-        Different examples of the use of the DLHM plugin are presented. All input/output raw image files presented in the folowing examples can be downloaded <a href="https://drive.google.com/open?id=1yNMc6ELA1K6B4FNLQJOmlMV8VEpQUVpn">here</a>.
-      </p>
-	    
-      <h4>
-        DLHM simulation of a diatom algae.
-      </h4>
-
-      <p align="center">
-        <img src="images/diatom.jpg" style="width:300px">
-	<img src="images/simulation_parameter_diatom.JPG" style="width:500px">	      
-	<img src="images/diatom_hologram.jpg" style="width:300px">
-	<img src="images/diatom_reference.jpg" style="width:300px">
+        The DLHM plugin is composed of 2 different modules, below we will show how to use
+        each of them through a practical example. We are going to generate a diatom algae hologram
+        in the simulation module and later we are going to use the reconstruction module to recover
+        the original information.
+        <hr>
+        All input/output raw image files presented in the
+        folowing examples can be downloaded <a
+          href="https://drive.google.com/open?id=1yNMc6ELA1K6B4FNLQJOmlMV8VEpQUVpn">here</a>.
       </p>
 
-      <p align="center">
-        (Top-left) Input amplitude image. (Top-right) Simulation parameters. (Bottom-left) Modeled hologram. (Bottom-right) Modeled reference.
-      </p>
+      <!-- Diatom example -->
+      <div>
 
-      <p>
-        DLHM reconstruction of the previously modeled diatom algae hologram.
-      </p>
+        <h4>
+          DLHM simulation of a diatom algae.
+        </h4>
 
-      <p align="center">
-        <img src="images/reconstruction_parameter_diatom.JPG" style="width:500px">
-	<img src="images/diatom_reconctruction.jpg" style="width:300px">	      
-      </p>
+        <p align="center">
+          <img src="images/diatom.jpg" style="width:300px">
+          <img src="images/simulation_parameter_diatom.JPG" style="width:425px">
+          <img src="images/diatom_hologram.jpg" style="width:300px">
+          <img src="images/diatom_reference.jpg" style="width:300px">
+        </p>
 
-      <p align="center">
-        (Left) Reconstruction parameters. (Right) Reconstructed hologram.
-      </p>
+        <p align="center">
+          (Top-left) Input amplitude image. (Top-right) Simulation parameters. (Bottom-left) Modeled hologram.
+          (Bottom-right) Modeled reference.
+        </p>
 
-      <h4>
-        Study of lateral resolution in DLHM. 
-      </h4>
-	    
-      <p>
-        Two-stops simulated holograms and subsequent reconstructions for numerical apertures (NA) of 0.16, 0.27 and 0.44. Input amplitude to simulate two stops of 500nm separated 1.9um. Simulation and reconstruction parameters for NA = 0.16.
-      </p>
+        <h4>
+          DLHM reconstruction of the previously modeled diatom algae hologram.
+        </h4>
 
-      <p align="center">
-        <img src="images/(zoom-in)test3_1867nm_500nm.JPG" style="width:300px">
-	<img src="images/simulation_parameter_TwoStops.JPG" style="width:500px">
-	<img src="images/reconstruction_parameter_TwoStops.JPG" style="width:500px">
-      </p>
+        <p align="center">
+          <img src="images/reconstruction_parameter_diatom.JPG" style="width:425px">
+          <img src="images/diatom_reconctruction.jpg" style="width:300px">
+        </p>
 
-      <p align="center">
-        (Top-left) Zoom-in input amplitude image. (Top-right) Simulation parameters. (Bottom) Reconstruction parameters.
-      </p>
-	    
-      <p>
-        Results of the lateral resolution study for DLHM.
-      </p>
+        <p align="center">
+          (Left) Reconstruction parameters. (Right) Reconstructed hologram.
+        </p>
 
-      <p align="center">
-        <img src="images/TwoStops_Simulation_Results.jpg" style="width:500px">
-      </p>
+      </div>
 
-      <p align="center">
-	Simulation of DLHM holograms (left) and their intensity reconstructions (center) for a sample with a separation S = 1.9μm between circular stops. For the yellow line in the intensity reconstruction, a profile line has been plotted (right). DLHM setups of 0.16 NA panel (a), 0.27 NA panel (b) and 0.44 NA panel (c) have been modeled.
-      </p>
-	    
-      <h4>
-        Reconstruction of an experimental DLHM hologram of one-microrganism.
-      </h4>  
+      <!-- Lateral resolution example -->
+      <div>
 
-      <p align="center">
-        <img src="images/c0025.jpg" style="width:300px">
-        <img src="images/c0039.jpg" style="width:300px">
-        <img src="images/OneMicrorganism_ReconstructionParameters.jpg" style="width:500px">
-        <img src="images/OneMicrorganism_Intensity.jpg" style="width:300px">
-      </p>
+        <h4>
+          Study of lateral resolution in DLHM.
+        </h4>
 
-      <p align="center">
-	(Top-left) Experimental DLHM hologram of one microorganism. (Top-right) Experimental DLHM reference hologram. (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
-      </p>
+        <p>
+          Two-stops simulated holograms and subsequent reconstructions for numerical apertures (NA) of 0.16, 0.27 and
+          0.44.
+          Input amplitude to simulate two stops of 500nm separated 1.9um. Simulation and reconstruction parameters for
+          NA =
+          0.16.
+        </p>
 
-      <h4>
-        Reconstruction of an experimental DLHM hologram of four microrganisms.
-      </h4>  
+        <p align="center">
+          <img src="images/(zoom-in)test3_1867nm_500nm.JPG" style="width:300px">
+          <img src="images/simulation_parameter_TwoStops.JPG" style="width:425px">
+          <img src="images/reconstruction_parameter_TwoStops.JPG" style="width:425px">
+        </p>
 
-      <p align="center">
-        <img src="images/f0010.jpg" style="width:300px">
-        <img src="images/d0002.jpg" style="width:300px">
-        <img src="images/4Microorganisms_ReconstructionParameters.JPG" style="width:500px">
-        <img src="images/Recon(Intensity)a0031(multi-file)-depth(485.60).jpg" style="width:300px">
-      </p>
+        <p align="center">
+          (Top-left) Zoom-in input amplitude image. (Top-right) Simulation parameters. (Bottom) Reconstruction
+          parameters.
+        </p>
 
-      <p align="center">
-	(Top-left) Experimental DLHM hologram of four microorganisms. (Top-right) Experimental DLHM reference hologram. (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
-      </p>
+        <p>
+          Results of the lateral resolution study for DLHM.
+        </p>
 
-      <h4>
-        Reconstruction of an experimental DLHM hologram of the section of a drosophila melanogaster fly's head.
-      </h4>  
+        <p align="center">
+          <img src="images/TwoStops_Simulation_Results.jpg" style="width:500px">
+        </p>
 
-      <p align="center">
-        <img src="images/G4_fly.bmp" style="width:300px">
-        <img src="images/GREF4_fly.bmp" style="width:300px">
-        <img src="images/Fly_ReconstructionParameters.JPG" style="width:500px">
-        <img src="images/Fly_IntensityReconstruction.jpg" style="width:300px">
-      </p>
+        <p align="center">
+          Simulation of DLHM holograms (left) and their intensity reconstructions (center) for a sample with a
+          separation S
+          = 1.9μm between circular stops. For the yellow line in the intensity reconstruction, a profile line has been
+          plotted (right). DLHM setups of 0.16 NA panel (a), 0.27 NA panel (b) and 0.44 NA panel (c) have been modeled.
+        </p>
 
-      <p align="center">
-	(Top-left) Experimental DLHM hologram of drosophila melanogaster fly. (Top-right) Experimental DLHM reference hologram. (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
-      </p>
-	    
-      <hr>
+      </div>
+
+      <!-- Reconstruction one-microrganism example -->
+      <div>
+
+        <h4>
+          Reconstruction of an experimental DLHM hologram of one-microrganism.
+        </h4>
+
+        <p align="center">
+          <img src="images/c0025.jpg" style="width:300px">
+          <img src="images/c0039.jpg" style="width:300px">
+          <img src="images/OneMicrorganism_ReconstructionParameters.jpg" style="width:425px">
+          <img src="images/OneMicrorganism_Intensity.jpg" style="width:300px">
+        </p>
+
+        <p align="center">
+          (Top-left) Experimental DLHM hologram of one microorganism. (Top-right) Experimental DLHM reference hologram.
+          (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
+        </p>
+
+      </div>
+
+      <!-- Reconstruction of four microrcanisms example -->
+      <div>
+
+        <h4>
+          Reconstruction of an experimental DLHM hologram of four microrganisms.
+        </h4>
+
+        <p align="center">
+          <img src="images/f0010.jpg" style="width:300px">
+          <img src="images/d0002.jpg" style="width:300px">
+          <img src="images/4Microorganisms_ReconstructionParameters.JPG" style="width:425px">
+          <img src="images/Recon(Intensity)a0031(multi-file)-depth(485.60).jpg" style="width:300px">
+        </p>
+
+        <p align="center">
+          (Top-left) Experimental DLHM hologram of four microorganisms. (Top-right) Experimental DLHM reference
+          hologram.
+          (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
+        </p>
+
+      </div>
+
+      <!-- Drosophila reconstruction example -->
+      <div>
+
+        <h4>
+          Reconstruction of an experimental DLHM hologram of the section of a drosophila melanogaster fly's head.
+        </h4>
+
+        <p align="center">
+          <img src="images/G4_fly.bmp" style="width:300px">
+          <img src="images/GREF4_fly.bmp" style="width:300px">
+          <img src="images/Fly_ReconstructionParameters.JPG" style="width:425px">
+          <img src="images/Fly_IntensityReconstruction.jpg" style="width:300px">
+        </p>
+
+        <p align="center">
+          (Top-left) Experimental DLHM hologram of drosophila melanogaster fly. (Top-right) Experimental DLHM reference
+          hologram. (Bottom-left) Reconstruction parameters. (Bottom-right) Intensity reconstruction.
+        </p>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <!-- CREDITS -->
+    <div class="credits">
+
       <h3>
-        <a id="changes" class="anchor" href="#changes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Changes
-      </h3>
-	    
-      <h4>
-	Version 1.1, 2020/05
-      </h4>
-
-      <ul>
-        <li>Second release.</li>
-      </ul>
-	    
-      <h4>
-        Version 1.0, 2017/04
-      </h4>
-
-      <ul>
-        <li>Initial release.</li>
-      </ul>
-
-	    
-      <hr>
-      <h3>
-        <a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits
+        <a id="credits" class="anchor" href="#credits" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Credits
       </h3>
 
       <p>
-        DLHM uses <a href="http://unal-optodigital.github.io/JDiffraction/" target="_blank">JDiffraction</a>, <a href="https://sites.google.com/site/piotrwendykier/software/jtransforms" target="_blank">JTransforms</a> and the icons provided by the <a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">Silk icon set</a>.
+        DLHM uses <a href="http://unal-optodigital.github.io/JDiffraction/" target="_blank">JDiffraction</a>, <a
+          href="https://sites.google.com/site/piotrwendykier/software/jtransforms" target="_blank">JTransforms</a> and
+        the
+        icons provided by the <a href="http://www.famfamfam.com/lab/icons/silk/" target="_blank">Silk icon set</a>.
       </p>
+    </div>
 
-      <hr>
+    <hr>
+
+    <!-- CITATION -->
+    <div class="citation">
+
       <h3>
-        <a id="citation" class="anchor" href="#citation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Citation
+        <a id="citation" class="anchor" href="#citation" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Citation
       </h3>
 
       <p>
-        You can reference Digital Lensless Holographic Microscopy using the following patent:
+        You can reference Digital Lensless Holographic Microscopy using the following works:
       </p>
 
       <ol>
-        <li>J. García-Sucerquia, C. Trujillo and J. F. Restrepo, "MICROSCOPIO, HOLOGRÁFICO SIN LENTES (MHDSL) Y MÉTODO PARA VISUALIZAR MUESTRAS," U.S. patent 7620179 (2018).</li>
+        <li>Carlos Trujillo, Pablo Piedrahita-Quintero, and Jorge Garcia-Sucerquia, "Digital lensless holographic
+          microscopy:
+          numerical simulation and reconstruction with ImageJ," Appl. Opt. 59, 5788-5795 (2020).</li>
+        <li>J. García-Sucerquia, C. Trujillo and J. F. Restrepo, "MICROSCOPIO, HOLOGRÁFICO SIN LENTES (MHDSL) Y MÉTODO
+          PARA VISUALIZAR MUESTRAS," U.S. patent 7620179 (2018).</li>
       </ol>
 
-      <hr>
+    </div>
+
+    <hr>
+
+    <!-- CONTACT -->
+    <div class="contact">
+
       <h3>
-        <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contact
+        <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Contact
       </h3>
 
       <ul>
@@ -267,20 +463,47 @@
         <li>Jorge Garcia-Sucerquia (<a href="mailto:jigarcia@unal.edu.co">jigarcia@unal.edu.co</a>)</li>
       </ul>
 
-      <footer class="site-footer">
+    </div>
+
+    <hr>
+
+    <!-- COLABORATORS -->
+    <div class="colaborators">
+
+      <h3>
+        <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span
+            class="octicon octicon-link"></span></a>Colaborators
+      </h3>
+
+      <ul>
+        <li>Heberley Tobon-Maya (<a href="mailto:htobonm@unal.edu.co">htobonm@unal.edu.co</a>)</li>
+        <li>Samuel I. Zapata-Valencia (<a href="mailto:sizapatav@unal.edu.co">sizapatav@unal.edu.co</a>)</li>
+        <li>Carlos A. Buitrago-Duque (<a href="mailto:cabuitragod@unal.edu.co">cabuitragod@unal.edu.co</a>)</li>
+      </ul>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="logos">
         <p align="center">
-          <img src="images/un.png" style="height:70px" hspace="40">
-          <img src="images/group-logo.png" style="height:70px" hspace="40">
+          <img src="images/un.gif" style="height:90px" hspace="45">
+          <img src="images/group-logo.gif" style="height:90px" hspace="45">
         </p>
+      </div>
 
-        <span class="site-footer-owner">
-          <a href="https://github.com/unal-optodigital/DLHM">Digital Lensless Holographic Microscopy</a> is maintained by <a href="https://github.com/unal-optodigital">unal-optodigital</a>.
-        </span>
+      <span class="site-footer-owner">
+        <a href="https://github.com/unal-optodigital/DLHM">Digital Lensless Holographic Microscopy</a> is maintained by
+        <a href="https://github.com/unal-optodigital">unal-optodigital</a>.
+      </span>
 
-        <span class="site-footer-credits">
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </span>
-      </footer>
-    </section>
-  </body>
+      <span class="site-footer-credits">
+        This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a
+          href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a
+          href="https://twitter.com/jasonlong">Jason Long</a>.
+      </span>
+    </footer>
+  </section>
+</body>
+
 </html>
