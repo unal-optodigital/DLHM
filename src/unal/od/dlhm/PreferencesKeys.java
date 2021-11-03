@@ -82,6 +82,7 @@ public interface PreferencesKeys {
     //simulation frame settings
     final static String SIM_FRAME_LOC_X = "SIM_FRAME_LOC_X";
     final static String SIM_FRAME_LOC_Y = "SIM_FRAME_LOC_Y";
+    final static String SIM_SUBSTRACT_REF = "SIM_SUBSTRACT_REF";
 
     final static String SIM_LAMBDA = "SIM_LAMBDA";
     final static String SIM_SOURCE_TO_SCREEN_DISTANCE = "SIM_SOURCE_TO_SCREEN_DISTANCE";
@@ -93,6 +94,11 @@ public interface PreferencesKeys {
     final static String SIM_HOLOGRAM_CHECKED = "SIM_HOLOGRAM_CHECKED";
     final static String SIM_REFERENCE_CHECKED = "SIM_REFERENCE_CHECKED";
     final static String SIM_CONTRAST_CHECKED = "SIM_CONTRAST_CHECKED";
+    final static String SIM_AMPLITUDE_CHECKED = "SIM_AMPLITUDE_CHECKED";
+    final static String SIM_PHASE_CHECKED = "SIM_PHASE_CHECKED";
+    final static String SIM_REAL_CHECKED = "SIM_REAL_CHECKED";
+    final static String SIM_IMAGINARY_CHECKED = "SIM_IMAGINARY_CHECKED";
+    
     final static String SIM_RELATION_LOCK = "SIM_RELATION_LOCK";
     final static String SIM_LOG_WRAPPING = "SIM_LOG_WRAPPING";
     

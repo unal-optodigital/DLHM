@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.sim;
 
 import java.awt.Toolkit;
@@ -38,7 +37,7 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
     private int sourceToScreenIdx;
     private int screenSizeIdx;
     private int sampleSizeIdx;
-
+    
     private final Preferences pref;
 
     private final SimulationFrame parent;
@@ -94,17 +93,20 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         batchGroup = new javax.swing.ButtonGroup();
         cancelBtn = new javax.swing.JButton();
         okBtn = new javax.swing.JButton();
-        unitsPanel = new javax.swing.JPanel();
-        lambdaCombo = new javax.swing.JComboBox();
-        sourceToScreenCombo = new javax.swing.JComboBox();
-        sourceToSampleCombo = new javax.swing.JComboBox();
-        screenSizeCombo = new javax.swing.JComboBox();
-        sampleSizeCombo = new javax.swing.JComboBox();
-        lambdaLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         sourceToSampleLabel = new javax.swing.JLabel();
+        lambdaLabel = new javax.swing.JLabel();
+        lambdaCombo = new javax.swing.JComboBox();
+        sourceToSampleCombo = new javax.swing.JComboBox();
         sourceToScreenLabel = new javax.swing.JLabel();
+        sourceToScreenCombo = new javax.swing.JComboBox();
+        screenSizeCombo = new javax.swing.JComboBox();
         screenSizeLabel = new javax.swing.JLabel();
         sampleSizeLabel = new javax.swing.JLabel();
+        sampleSizeCombo = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        refComplexInfoChk = new javax.swing.JCheckBox();
+        contrastComplexInfoChk = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
@@ -132,35 +134,8 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
             }
         });
 
-        unitsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Units"));
-        unitsPanel.setMaximumSize(new java.awt.Dimension(198, 189));
-        unitsPanel.setMinimumSize(new java.awt.Dimension(198, 189));
-
-        lambdaCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
-        lambdaCombo.setSelectedIndex(lambdaIdx);
-        lambdaCombo.setMaximumSize(new java.awt.Dimension(83, 20));
-
-        sourceToScreenCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
-        sourceToScreenCombo.setSelectedIndex(sourceToScreenIdx);
-        sourceToScreenCombo.setMaximumSize(new java.awt.Dimension(83, 20));
-
-        sourceToSampleCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
-        sourceToSampleCombo.setSelectedIndex(sourceToSampleIdx);
-        sourceToSampleCombo.setMaximumSize(new java.awt.Dimension(83, 20));
-
-        screenSizeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
-        screenSizeCombo.setSelectedIndex(screenSizeIdx);
-        screenSizeCombo.setMaximumSize(new java.awt.Dimension(83, 20));
-
-        sampleSizeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
-        sampleSizeCombo.setSelectedIndex(sampleSizeIdx);
-        sampleSizeCombo.setMaximumSize(new java.awt.Dimension(83, 20));
-
-        lambdaLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lambdaLabel.setText("Wavelength:");
-        lambdaLabel.setMaximumSize(new java.awt.Dimension(73, 14));
-        lambdaLabel.setMinimumSize(new java.awt.Dimension(73, 14));
-        lambdaLabel.setPreferredSize(new java.awt.Dimension(73, 14));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Units"));
+        jPanel2.setToolTipText("");
 
         sourceToSampleLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         sourceToSampleLabel.setText("So. - Sa. dist.:");
@@ -169,12 +144,34 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         sourceToSampleLabel.setMinimumSize(new java.awt.Dimension(73, 14));
         sourceToSampleLabel.setPreferredSize(new java.awt.Dimension(73, 14));
 
+        lambdaLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        lambdaLabel.setText("Wavelength:");
+        lambdaLabel.setMaximumSize(new java.awt.Dimension(73, 14));
+        lambdaLabel.setMinimumSize(new java.awt.Dimension(73, 14));
+        lambdaLabel.setPreferredSize(new java.awt.Dimension(73, 14));
+
+        lambdaCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
+        lambdaCombo.setSelectedIndex(lambdaIdx);
+        lambdaCombo.setMaximumSize(new java.awt.Dimension(83, 20));
+
+        sourceToSampleCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
+        sourceToSampleCombo.setSelectedIndex(sourceToSampleIdx);
+        sourceToSampleCombo.setMaximumSize(new java.awt.Dimension(83, 20));
+
         sourceToScreenLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         sourceToScreenLabel.setText("So. - Sc. dist.:");
         sourceToScreenLabel.setToolTipText("Source to screen distance.");
         sourceToScreenLabel.setMaximumSize(new java.awt.Dimension(73, 14));
         sourceToScreenLabel.setMinimumSize(new java.awt.Dimension(73, 14));
         sourceToScreenLabel.setPreferredSize(new java.awt.Dimension(73, 14));
+
+        sourceToScreenCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
+        sourceToScreenCombo.setSelectedIndex(sourceToScreenIdx);
+        sourceToScreenCombo.setMaximumSize(new java.awt.Dimension(83, 20));
+
+        screenSizeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
+        screenSizeCombo.setSelectedIndex(screenSizeIdx);
+        screenSizeCombo.setMaximumSize(new java.awt.Dimension(83, 20));
 
         screenSizeLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         screenSizeLabel.setText("Screen size:");
@@ -189,63 +186,105 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         sampleSizeLabel.setMinimumSize(new java.awt.Dimension(73, 14));
         sampleSizeLabel.setPreferredSize(new java.awt.Dimension(73, 14));
 
-        javax.swing.GroupLayout unitsPanelLayout = new javax.swing.GroupLayout(unitsPanel);
-        unitsPanel.setLayout(unitsPanelLayout);
-        unitsPanelLayout.setHorizontalGroup(
-            unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(unitsPanelLayout.createSequentialGroup()
+        sampleSizeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nanometers", "Micrometers", "Millimeters", "Centimeters", "Meters" }));
+        sampleSizeCombo.setSelectedIndex(sampleSizeIdx);
+        sampleSizeCombo.setMaximumSize(new java.awt.Dimension(83, 20));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(unitsPanelLayout.createSequentialGroup()
-                        .addComponent(sourceToSampleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(sourceToScreenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sourceToSampleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(unitsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(unitsPanelLayout.createSequentialGroup()
-                                .addComponent(sourceToScreenLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sourceToScreenCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(unitsPanelLayout.createSequentialGroup()
-                                .addComponent(lambdaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lambdaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(unitsPanelLayout.createSequentialGroup()
-                                .addComponent(sampleSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sampleSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(unitsPanelLayout.createSequentialGroup()
-                                .addComponent(screenSizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(screenSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                        .addComponent(sourceToScreenCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(sampleSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sampleSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(screenSizeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(screenSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(sourceToSampleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sourceToSampleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(lambdaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lambdaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        unitsPanelLayout.setVerticalGroup(
-            unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(unitsPanelLayout.createSequentialGroup()
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lambdaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lambdaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sourceToSampleCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sourceToSampleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sourceToScreenCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sourceToScreenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(screenSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(screenSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(unitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sampleSizeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sampleSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Activate complex info"));
+        jPanel1.setToolTipText("");
+
+        refComplexInfoChk.setText("Reference");
+        refComplexInfoChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refComplexInfoChkActionPerformed(evt);
+            }
+        });
+
+        contrastComplexInfoChk.setText("Contrast Hologram");
+        contrastComplexInfoChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrastComplexInfoChkActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(refComplexInfoChk)
+                    .addComponent(contrastComplexInfoChk))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(refComplexInfoChk)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(contrastComplexInfoChk)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        contrastComplexInfoChk.getAccessibleContext().setAccessibleName("Contrast hologram");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -253,26 +292,33 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(unitsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(unitsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("Complex");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -285,7 +331,7 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         pref.put(SIM_SAMPLE_SIZE_UNITS, UNITS_ABVS[sampleSizeCombo.getSelectedIndex()]);
 
         parent.updateUnitsPrefs();
-
+        
         setVisible(false);
         dispose();
     }//GEN-LAST:event_okBtnActionPerformed
@@ -295,13 +341,27 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
+    private void refComplexInfoChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refComplexInfoChkActionPerformed
+        // TODO add your handling code here:
+        //refComplexInfoEnabled = refComplexInfoChk.isSelected();
+    }//GEN-LAST:event_refComplexInfoChkActionPerformed
+
+    private void contrastComplexInfoChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrastComplexInfoChkActionPerformed
+        // TODO add your handling code here:
+        //contrastComplexInfoEnabled = contrastComplexInfoChk.isSelected();
+    }//GEN-LAST:event_contrastComplexInfoChkActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup batchGroup;
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JCheckBox contrastComplexInfoChk;
     private javax.swing.ButtonGroup contrastGroup;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox lambdaCombo;
     private javax.swing.JLabel lambdaLabel;
     private javax.swing.JButton okBtn;
+    private javax.swing.JCheckBox refComplexInfoChk;
     private javax.swing.JComboBox sampleSizeCombo;
     private javax.swing.JLabel sampleSizeLabel;
     private javax.swing.JComboBox screenSizeCombo;
@@ -310,6 +370,5 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
     private javax.swing.JLabel sourceToSampleLabel;
     private javax.swing.JComboBox sourceToScreenCombo;
     private javax.swing.JLabel sourceToScreenLabel;
-    private javax.swing.JPanel unitsPanel;
     // End of variables declaration//GEN-END:variables
 }

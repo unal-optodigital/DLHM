@@ -606,10 +606,20 @@ public class ReconstructionSettingsFrame extends javax.swing.JFrame implements P
         intensityLogChk.setSelected(intensityLogSelected);
         intensityLogChk.setText("Intensity");
         intensityLogChk.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        intensityLogChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                intensityLogChkActionPerformed(evt);
+            }
+        });
 
         amplitudeLogChk.setSelected(amplitudeLogSelected);
         amplitudeLogChk.setText("Amplitude");
         amplitudeLogChk.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        amplitudeLogChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amplitudeLogChkActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout logPanelLayout = new javax.swing.GroupLayout(logPanel);
         logPanel.setLayout(logPanelLayout);
@@ -892,6 +902,14 @@ public class ReconstructionSettingsFrame extends javax.swing.JFrame implements P
     private void averageDimensionFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_averageDimensionFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_averageDimensionFieldActionPerformed
+
+    private void amplitudeLogChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amplitudeLogChkActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_amplitudeLogChkActionPerformed
+
+    private void intensityLogChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intensityLogChkActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intensityLogChkActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox amplitudeByteChk;
