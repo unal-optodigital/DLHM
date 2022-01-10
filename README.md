@@ -18,4 +18,12 @@ Further information about this plugin and its functional modules can be found in
 - J. García-Sucerquia, C. Trujillo and J. F. Restrepo, "MICROSCOPIO, HOLOGRÁFICO SIN LENTES (MHDSL) Y MÉTODO PARA VISUALIZAR MUESTRAS," U.S. patent 7620179 (2018).
 
 ## Credits
-dLHM uses [JDiffraction](https://unal-optodigital.github.io/JDiffraction/) and [JTransforms](https://sites.google.com/site/piotrwendykier/software/jtransforms) numerical routines.
+DLHM uses [JDiffraction](https://unal-optodigital.github.io/JDiffraction/) and [JTransforms](https://sites.google.com/site/piotrwendykier/software/jtransforms) numerical routines.
+
+## Contact
+- Pablo Piedrahita-Quintero (jppiedrahitaq@unal.edu.co)
+- Carlos Trujillo (catrujilla@eafit.edu.co)
+- Jorge Garcia-Sucerquia (jigarcia@unal.edu.co)
+- Heberley Tobon-Maya (htobonm@unal.edu.co)
+- Samuel I. Zapata-Valencia (sizapatav@unal.edu.co)
+- Carlos A. Buitrago-Duque (cabuitragod@unal.edu.co)
