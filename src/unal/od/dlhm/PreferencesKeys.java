@@ -23,6 +23,8 @@ package unal.od.dlhm;
  * @author: Jorge Garcia-Sucerquia <jisucerquia@unal.edu.co>
  */
 public interface PreferencesKeys {
+    
+    final static String DLHM_PLUGIN_VERSION = "Version 1.3 - March 2022";
 
     //reconstruction frame parameters
     final static String REC_FRAME_LOC_X = "REC_FRAME_LOC_X";

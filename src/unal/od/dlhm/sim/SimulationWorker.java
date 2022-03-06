@@ -52,10 +52,6 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
     float[][] hologram, reference, contrast,
             amplitude, phase, real, imaginary;
 
-    float[][] real_ref, imaginary_ref;
-
-    float[][] real_contrast, imaginary_contrast;
-
     //
     private BluesteinHighNA propagator;
 
@@ -144,34 +140,10 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
         if (realSelected) {
             real = propagator.interpolate(ArrayUtils.real(field));
             
-            if (referenceSelected || contrastSelected) {
-                real_ref = propagator.interpolate(ArrayUtils.real(complexRef));
-
-                if (contrastSelected) {
-                    real_contrast = new float[M][N];
-
-                    for (int i = 0; i < M; i++) {
-                        for (int j = 0; j < N; j++) {
-                            real_contrast[i][j] = real[i][j] - real_ref[i][j];
-                        }
-                    }
-                }
-            }
         }
 
         if (imaginarySelected) {
             imaginary = propagator.interpolate(ArrayUtils.imaginary(field));
-            imaginary_ref = propagator.interpolate(ArrayUtils.imaginary(complexRef));
-
-            if (contrastSelected) {
-                imaginary_contrast = new float[M][N];
-
-                for (int i = 0; i < M; i++) {
-                    for (int j = 0; j < N; j++) {
-                        imaginary_contrast[i][j] = imaginary[i][j] - imaginary_ref[i][j];
-                    }
-                }
-            }
         }
 
         return null;
@@ -232,36 +204,10 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
 
         }
 
-        if (realSelected && referenceSelected) {
-            ImageProcessor ip = new FloatProcessor(real_ref);
-            ImagePlus imp = new ImagePlus("Real Reference" + namesSuffix, ip);
-            imp.setCalibration(cal);
-            imp.show();
-        }
-        if (realSelected && contrastSelected) {
-            ImageProcessor ip = new FloatProcessor(real_contrast);
-            ImagePlus imp = new ImagePlus("Real Contrast" + namesSuffix, ip);
-            imp.setCalibration(cal);
-            imp.show();
-        }
 
         if (imaginarySelected) {
             ImageProcessor ip = new FloatProcessor(imaginary);
             ImagePlus imp = new ImagePlus("Imaginary" + namesSuffix, ip);
-            imp.setCalibration(cal);
-            imp.show();
-        }
-
-        if (imaginarySelected && referenceSelected) {
-            ImageProcessor ip = new FloatProcessor(imaginary_ref);
-            ImagePlus imp = new ImagePlus("Imaginary Reference" + namesSuffix, ip);
-            imp.setCalibration(cal);
-            imp.show();
-        }
-
-        if (imaginarySelected && contrastSelected) {
-            ImageProcessor ip = new FloatProcessor(imaginary_contrast);
-            ImagePlus imp = new ImagePlus("Imaginary Contrast" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
         }

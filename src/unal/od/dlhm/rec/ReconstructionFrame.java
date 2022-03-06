@@ -46,7 +46,7 @@ import unal.od.dlhm.PreferencesKeys;
 public class ReconstructionFrame extends javax.swing.JFrame implements ImageListener, PreferencesKeys {
 
     private static final String TITLE = "DLHM Reconstruction";
-    private static final String LOG_HEADER = "Version 1.3 - November 2021";
+    private static final String LOG_HEADER = DLHM_PLUGIN_VERSION;
     private static final String LOG_SEPARATOR = "\n---------------------------";
 
     //

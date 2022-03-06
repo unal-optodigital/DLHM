@@ -104,9 +104,6 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         screenSizeLabel = new javax.swing.JLabel();
         sampleSizeLabel = new javax.swing.JLabel();
         sampleSizeCombo = new javax.swing.JComboBox();
-        jPanel1 = new javax.swing.JPanel();
-        refComplexInfoChk = new javax.swing.JCheckBox();
-        contrastComplexInfoChk = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
@@ -246,46 +243,6 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Activate complex info"));
-        jPanel1.setToolTipText("");
-
-        refComplexInfoChk.setText("Reference");
-        refComplexInfoChk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refComplexInfoChkActionPerformed(evt);
-            }
-        });
-
-        contrastComplexInfoChk.setText("Contrast Hologram");
-        contrastComplexInfoChk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contrastComplexInfoChkActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(refComplexInfoChk)
-                    .addComponent(contrastComplexInfoChk))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(refComplexInfoChk)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contrastComplexInfoChk)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        contrastComplexInfoChk.getAccessibleContext().setAccessibleName("Contrast hologram");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,8 +257,7 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
                         .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -309,16 +265,12 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(okBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
-
-        jPanel1.getAccessibleContext().setAccessibleName("Complex");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -341,27 +293,14 @@ public class SimulationSettingsFrame extends javax.swing.JFrame implements Prefe
         dispose();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
-    private void refComplexInfoChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refComplexInfoChkActionPerformed
-        // TODO add your handling code here:
-        //refComplexInfoEnabled = refComplexInfoChk.isSelected();
-    }//GEN-LAST:event_refComplexInfoChkActionPerformed
-
-    private void contrastComplexInfoChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrastComplexInfoChkActionPerformed
-        // TODO add your handling code here:
-        //contrastComplexInfoEnabled = contrastComplexInfoChk.isSelected();
-    }//GEN-LAST:event_contrastComplexInfoChkActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup batchGroup;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JCheckBox contrastComplexInfoChk;
     private javax.swing.ButtonGroup contrastGroup;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox lambdaCombo;
     private javax.swing.JLabel lambdaLabel;
     private javax.swing.JButton okBtn;
-    private javax.swing.JCheckBox refComplexInfoChk;
     private javax.swing.JComboBox sampleSizeCombo;
     private javax.swing.JLabel sampleSizeLabel;
     private javax.swing.JComboBox screenSizeCombo;
