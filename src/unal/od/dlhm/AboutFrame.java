@@ -21,6 +21,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import static unal.od.dlhm.PreferencesKeys.DLHM_PLUGIN_VERSION;
 
 /**
  *
@@ -29,14 +30,16 @@ import java.net.URISyntaxException;
  * @author: Jorge Garcia-Sucerquia <jisucerquia@unal.edu.co>
  */
 public class AboutFrame extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form AboutFrame.
      */
     public AboutFrame() {
         initComponents();
+        
+        versionLabel.setText(DLHM_PLUGIN_VERSION);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

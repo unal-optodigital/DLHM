@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.sim;
 
 import ij.ImageListener;
@@ -50,7 +49,7 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         PreferencesKeys {
 
     private static final String TITLE = "DLHM Simulation";
-    private static final String LOG_HEADER = "Version 1.0 - April 2017";
+    private static final String LOG_HEADER = DLHM_PLUGIN_VERSION;
     private static final String LOG_SEPARATOR = "\n---------------------------";
 
     //
@@ -141,6 +140,10 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
     private boolean hologramEnabled;
     private boolean referenceEnabled;
     private boolean contrastEnabled;
+    private boolean amplitudeEnabled;
+    private boolean phaseEnabled;
+    private boolean realEnabled;
+    private boolean imaginaryEnabled;
 
     private boolean isManual;
 
@@ -215,6 +218,10 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         pref.putBoolean(SIM_HOLOGRAM_CHECKED, hologramChk.isSelected());
         pref.putBoolean(SIM_REFERENCE_CHECKED, referenceChk.isSelected());
         pref.putBoolean(SIM_CONTRAST_CHECKED, contrastChk.isSelected());
+        pref.putBoolean(SIM_AMPLITUDE_CHECKED, amplitudeChk.isSelected());
+        pref.putBoolean(SIM_PHASE_CHECKED, phaseChk.isSelected());
+        pref.putBoolean(SIM_REAL_CHECKED, realChk.isSelected());
+        pref.putBoolean(SIM_IMAGINARY_CHECKED, imaginaryChk.isSelected());
 
         pref.putBoolean(SIM_IS_MANUAL, manualRadio.isSelected());
 
@@ -235,6 +242,10 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         hologramEnabled = pref.getBoolean(SIM_HOLOGRAM_CHECKED, false);
         referenceEnabled = pref.getBoolean(SIM_REFERENCE_CHECKED, false);
         contrastEnabled = pref.getBoolean(SIM_CONTRAST_CHECKED, false);
+        amplitudeEnabled = pref.getBoolean(SIM_AMPLITUDE_CHECKED, false);
+        phaseEnabled = pref.getBoolean(SIM_PHASE_CHECKED, false);
+        realEnabled = pref.getBoolean(SIM_REAL_CHECKED, false);
+        imaginaryEnabled = pref.getBoolean(SIM_IMAGINARY_CHECKED, false);
 
         isManual = pref.getBoolean(SIM_IS_MANUAL, true);
 
@@ -244,7 +255,7 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
 
         //parameters units
         loadUnitsPrefs();
-
+        
         //parameters strings for text fields
         loadParameters();
     }
@@ -363,7 +374,7 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         sampleWLabel.setText("Sample width [" + sampleSizeUnits + "]:");
         sampleHLabel.setText("Sample height [" + sampleSizeUnits + "]:");
     }
-
+    
     /**
      * Posts a message (s) on the log. If useSeparator is true prints a
      * separator before the message.
@@ -597,7 +608,8 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         }
 
         //if there isn't at least one output image selected returns error
-        if (!hologramEnabled && !referenceEnabled && !contrastEnabled) {
+        if (!hologramEnabled && !referenceEnabled && !contrastEnabled
+                && !amplitudeEnabled && !phaseEnabled && !realEnabled && !imaginaryEnabled) {
             JOptionPane.showMessageDialog(this, "Please select at least one "
                     + "output.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -606,8 +618,8 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         //Sets the parameters in the worker object
         worker.setParameters(lambdaUm, zUm, lUm, screenWUm, screenHUm,
                 sampleWUm, sampleHUm);
-        worker.setOutputs(hologramEnabled, referenceEnabled, contrastEnabled);
-
+        worker.setOutputs(hologramEnabled, referenceEnabled, contrastEnabled,
+                amplitudeEnabled, phaseEnabled, realEnabled, imaginaryEnabled);
         return true;
     }
 
@@ -725,16 +737,20 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         automaticRadio = new javax.swing.JRadioButton();
         lLabel = new javax.swing.JLabel();
         lField = new javax.swing.JTextField();
-        btnsPanel = new javax.swing.JPanel();
-        settingsBtn = new javax.swing.JButton();
-        simulateBtn = new javax.swing.JButton();
+        infoLabel = new javax.swing.JLabel();
         chkPanel = new javax.swing.JPanel();
-        hologramChk = new javax.swing.JCheckBox();
-        referenceChk = new javax.swing.JCheckBox();
-        contrastChk = new javax.swing.JCheckBox();
+        simulateBtn = new javax.swing.JButton();
+        settingsBtn = new javax.swing.JButton();
         logPane = new javax.swing.JScrollPane();
         log = new javax.swing.JTextArea();
-        infoLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        amplitudeChk = new javax.swing.JCheckBox();
+        hologramChk = new javax.swing.JCheckBox();
+        referenceChk = new javax.swing.JCheckBox();
+        phaseChk = new javax.swing.JCheckBox();
+        realChk = new javax.swing.JCheckBox();
+        contrastChk = new javax.swing.JCheckBox();
+        imaginaryChk = new javax.swing.JCheckBox();
 
         copyItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/page_white_copy.png"))); // NOI18N
         copyItem.setText("Copy");
@@ -1073,19 +1089,13 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
                 .addGap(5, 5, 5))
         );
 
-        btnsPanel.setMaximumSize(new java.awt.Dimension(270, 31));
-        btnsPanel.setMinimumSize(new java.awt.Dimension(270, 31));
+        infoLabel.setText("Ready!");
+        infoLabel.setMaximumSize(new java.awt.Dimension(525, 14));
+        infoLabel.setMinimumSize(new java.awt.Dimension(525, 14));
+        infoLabel.setPreferredSize(new java.awt.Dimension(525, 14));
 
-        settingsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wrench.png"))); // NOI18N
-        settingsBtn.setText("Settings");
-        settingsBtn.setMaximumSize(new java.awt.Dimension(132, 23));
-        settingsBtn.setMinimumSize(new java.awt.Dimension(132, 23));
-        settingsBtn.setPreferredSize(new java.awt.Dimension(132, 23));
-        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBtnActionPerformed(evt);
-            }
-        });
+        chkPanel.setMaximumSize(new java.awt.Dimension(269, 23));
+        chkPanel.setMinimumSize(new java.awt.Dimension(269, 23));
 
         simulateBtn.setText("Simulate");
         simulateBtn.setMaximumSize(new java.awt.Dimension(132, 23));
@@ -1097,77 +1107,16 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
             }
         });
 
-        javax.swing.GroupLayout btnsPanelLayout = new javax.swing.GroupLayout(btnsPanel);
-        btnsPanel.setLayout(btnsPanelLayout);
-        btnsPanelLayout.setHorizontalGroup(
-            btnsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnsPanelLayout.createSequentialGroup()
-                .addComponent(simulateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
-        btnsPanelLayout.setVerticalGroup(
-            btnsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnsPanelLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addGroup(btnsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(settingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(simulateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4))
-        );
-
-        chkPanel.setMaximumSize(new java.awt.Dimension(269, 23));
-        chkPanel.setMinimumSize(new java.awt.Dimension(269, 23));
-
-        hologramChk.setSelected(hologramEnabled);
-        hologramChk.setText("Hologram");
-        hologramChk.addActionListener(new java.awt.event.ActionListener() {
+        settingsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/wrench.png"))); // NOI18N
+        settingsBtn.setText("Settings");
+        settingsBtn.setMaximumSize(new java.awt.Dimension(132, 23));
+        settingsBtn.setMinimumSize(new java.awt.Dimension(132, 23));
+        settingsBtn.setPreferredSize(new java.awt.Dimension(132, 23));
+        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hologramChkActionPerformed(evt);
+                settingsBtnActionPerformed(evt);
             }
         });
-
-        referenceChk.setSelected(referenceEnabled);
-        referenceChk.setText("Reference");
-        referenceChk.setToolTipText("");
-        referenceChk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                referenceChkActionPerformed(evt);
-            }
-        });
-
-        contrastChk.setSelected(contrastEnabled);
-        contrastChk.setText("Contrast hologram");
-        contrastChk.setToolTipText("Contrast hologram.");
-        contrastChk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contrastChkActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout chkPanelLayout = new javax.swing.GroupLayout(chkPanel);
-        chkPanel.setLayout(chkPanelLayout);
-        chkPanelLayout.setHorizontalGroup(
-            chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chkPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(hologramChk)
-                .addGap(7, 7, 7)
-                .addComponent(referenceChk, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(contrastChk))
-        );
-        chkPanelLayout.setVerticalGroup(
-            chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(chkPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hologramChk)
-                    .addComponent(referenceChk)
-                    .addComponent(contrastChk))
-                .addGap(0, 0, 0))
-        );
 
         logPane.setAutoscrolls(true);
         logPane.setMaximumSize(new java.awt.Dimension(274, 240));
@@ -1190,58 +1139,158 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         });
         logPane.setViewportView(log);
 
-        infoLabel.setText("Ready!");
-        infoLabel.setMaximumSize(new java.awt.Dimension(525, 14));
-        infoLabel.setMinimumSize(new java.awt.Dimension(525, 14));
-        infoLabel.setPreferredSize(new java.awt.Dimension(525, 14));
+        amplitudeChk.setSelected(hologramEnabled);
+        amplitudeChk.setText("Amplitude");
+        amplitudeChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amplitudeChkActionPerformed(evt);
+            }
+        });
+
+        hologramChk.setSelected(hologramEnabled);
+        hologramChk.setText("Hologram");
+        hologramChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hologramChkActionPerformed(evt);
+            }
+        });
+
+        referenceChk.setSelected(referenceEnabled);
+        referenceChk.setText("Reference");
+        referenceChk.setToolTipText("");
+        referenceChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                referenceChkActionPerformed(evt);
+            }
+        });
+
+        phaseChk.setSelected(hologramEnabled);
+        phaseChk.setText("Phase");
+        phaseChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phaseChkActionPerformed(evt);
+            }
+        });
+
+        realChk.setSelected(hologramEnabled);
+        realChk.setText("Real");
+        realChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                realChkActionPerformed(evt);
+            }
+        });
+
+        contrastChk.setSelected(contrastEnabled);
+        contrastChk.setText("Contrast hologram");
+        contrastChk.setToolTipText("Contrast hologram.");
+        contrastChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contrastChkActionPerformed(evt);
+            }
+        });
+
+        imaginaryChk.setSelected(hologramEnabled);
+        imaginaryChk.setText("Imaginary");
+        imaginaryChk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imaginaryChkActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(amplitudeChk)
+                    .addComponent(hologramChk))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(contrastChk)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(phaseChk)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(realChk)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imaginaryChk)
+                    .addComponent(referenceChk, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hologramChk)
+                    .addComponent(contrastChk)
+                    .addComponent(referenceChk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(amplitudeChk)
+                    .addComponent(phaseChk)
+                    .addComponent(realChk)
+                    .addComponent(imaginaryChk)))
+        );
+
+        javax.swing.GroupLayout chkPanelLayout = new javax.swing.GroupLayout(chkPanel);
+        chkPanel.setLayout(chkPanelLayout);
+        chkPanelLayout.setHorizontalGroup(
+            chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chkPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(chkPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(simulateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(settingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        chkPanelLayout.setVerticalGroup(
+            chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chkPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(chkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(simulateBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(logPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(5, 5, 5))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(chkPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(logPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(parametersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(5, 5, 5)
-                .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
+                        .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
-        if (settingsFrame == null || !settingsFrame.isDisplayable()) {
-            settingsFrame = new SimulationSettingsFrame(this);
-            settingsFrame.setVisible(true);
-        } else {
-            settingsFrame.setState(Frame.NORMAL);
-            settingsFrame.toFront();
-        }
-    }//GEN-LAST:event_settingsBtnActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
 
@@ -1280,10 +1329,10 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
 
                 sampleH = sampleW / ratio;
                 sampleHField.setText(df.format(sampleH));
-                
+
                 //requests focus to set the parameter
                 sampleHField.requestFocusInWindow();
-                
+
                 //returns the focus to the relation lock button
                 lockBtn.requestFocusInWindow();
             } catch (NumberFormatException exc) {
@@ -1291,18 +1340,6 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
             }
         }
     }//GEN-LAST:event_lockBtnActionPerformed
-
-    private void logMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logMousePressed
-        if (evt.isPopupTrigger()) {
-            popup.show(evt.getComponent(), evt.getX(), evt.getY());
-        }
-    }//GEN-LAST:event_logMousePressed
-
-    private void logMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logMouseReleased
-        if (evt.isPopupTrigger()) {
-            popup.show(evt.getComponent(), evt.getX(), evt.getY());
-        }
-    }//GEN-LAST:event_logMouseReleased
 
     private void copyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyItemActionPerformed
         String s = log.getSelectedText();
@@ -1332,27 +1369,6 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
         JTextField field = (JTextField) evt.getComponent();
         field.selectAll();
     }//GEN-LAST:event_textFieldFocusGained
-
-    private void simulateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateBtnActionPerformed
-        SimulationWorker worker = new SimulationWorker(this);
-
-        int amplitudeIdx = amplitudeCombo.getSelectedIndex();
-        int phaseIdx = phaseCombo.getSelectedIndex();
-
-        boolean success = setInputImages(worker, amplitudeIdx, phaseIdx);
-        if (!success) {
-            return;
-        }
-        updateLabel("Input images set!");
-
-        success = setParameters(worker);
-        if (!success) {
-            return;
-        }
-        updateLabel("Input parameters set!");
-
-        worker.execute();
-    }//GEN-LAST:event_simulateBtnActionPerformed
 
     private void sampleSizeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleSizeRadioActionPerformed
         boolean enable = manualRadio.isSelected();
@@ -1387,27 +1403,86 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
 
                 }
             }
-            
+
             //requests the focus to set the output size parameters
             sampleWField.requestFocusInWindow();
             sampleHField.requestFocusInWindow();
-            
+
             //requests focus again for the radio button
             manualRadio.requestFocusInWindow();
         }
     }//GEN-LAST:event_sampleSizeRadioActionPerformed
 
-    private void hologramChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hologramChkActionPerformed
-        hologramEnabled = hologramChk.isSelected();
-    }//GEN-LAST:event_hologramChkActionPerformed
+    private void logMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logMouseReleased
+        if (evt.isPopupTrigger()) {
+            popup.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_logMouseReleased
+
+    private void logMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logMousePressed
+        if (evt.isPopupTrigger()) {
+            popup.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_logMousePressed
+
+    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
+        if (settingsFrame == null || !settingsFrame.isDisplayable()) {
+            settingsFrame = new SimulationSettingsFrame(this);
+            settingsFrame.setVisible(true);
+        } else {
+            settingsFrame.setState(Frame.NORMAL);
+            settingsFrame.toFront();
+        }
+    }//GEN-LAST:event_settingsBtnActionPerformed
+
+    private void simulateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simulateBtnActionPerformed
+        SimulationWorker worker = new SimulationWorker(this);
+
+        int amplitudeIdx = amplitudeCombo.getSelectedIndex();
+        int phaseIdx = phaseCombo.getSelectedIndex();
+
+        boolean success = setInputImages(worker, amplitudeIdx, phaseIdx);
+        if (!success) {
+            return;
+        }
+        updateLabel("Input images set!");
+
+        success = setParameters(worker);
+        if (!success) {
+            return;
+        }
+        updateLabel("Input parameters set!");
+
+        worker.execute();
+    }//GEN-LAST:event_simulateBtnActionPerformed
+
+    private void imaginaryChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imaginaryChkActionPerformed
+        imaginaryEnabled = imaginaryChk.isSelected();
+    }//GEN-LAST:event_imaginaryChkActionPerformed
+
+    private void realChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_realChkActionPerformed
+        realEnabled = realChk.isSelected();
+    }//GEN-LAST:event_realChkActionPerformed
+
+    private void phaseChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phaseChkActionPerformed
+        phaseEnabled = phaseChk.isSelected();
+    }//GEN-LAST:event_phaseChkActionPerformed
+
+    private void amplitudeChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amplitudeChkActionPerformed
+        amplitudeEnabled = amplitudeChk.isSelected();
+    }//GEN-LAST:event_amplitudeChkActionPerformed
+
+    private void contrastChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrastChkActionPerformed
+        contrastEnabled = contrastChk.isSelected();
+    }//GEN-LAST:event_contrastChkActionPerformed
 
     private void referenceChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_referenceChkActionPerformed
         referenceEnabled = referenceChk.isSelected();
     }//GEN-LAST:event_referenceChkActionPerformed
 
-    private void contrastChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contrastChkActionPerformed
-        contrastEnabled = contrastChk.isSelected();
-    }//GEN-LAST:event_contrastChkActionPerformed
+    private void hologramChkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hologramChkActionPerformed
+        hologramEnabled = hologramChk.isSelected();
+    }//GEN-LAST:event_hologramChkActionPerformed
 
     private class ParametersVerifier extends InputVerifier {
 
@@ -1984,17 +2059,19 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox amplitudeChk;
     private javax.swing.JComboBox amplitudeCombo;
     private javax.swing.JLabel amplitudeLabel;
     private javax.swing.JRadioButton automaticRadio;
-    private javax.swing.JPanel btnsPanel;
     private javax.swing.JPanel chkPanel;
     private javax.swing.JMenuItem clearItem;
     private javax.swing.JCheckBox contrastChk;
     private javax.swing.JMenuItem copyAllItem;
     private javax.swing.JMenuItem copyItem;
     private javax.swing.JCheckBox hologramChk;
+    private javax.swing.JCheckBox imaginaryChk;
     private javax.swing.JLabel infoLabel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lField;
     private javax.swing.JLabel lLabel;
     private javax.swing.JTextField lambdaField;
@@ -2005,9 +2082,11 @@ public class SimulationFrame extends javax.swing.JFrame implements ImageListener
     private javax.swing.JRadioButton manualRadio;
     private javax.swing.ButtonGroup outputGroup;
     private javax.swing.JPanel parametersPanel;
+    private javax.swing.JCheckBox phaseChk;
     private javax.swing.JComboBox phaseCombo;
     private javax.swing.JLabel phaseLabel;
     private javax.swing.JPopupMenu popup;
+    private javax.swing.JCheckBox realChk;
     private javax.swing.JCheckBox referenceChk;
     private javax.swing.JTextField sampleHField;
     private javax.swing.JLabel sampleHLabel;

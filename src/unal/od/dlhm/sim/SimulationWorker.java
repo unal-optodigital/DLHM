@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package unal.od.dlhm.sim;
 
 import ij.ImagePlus;
@@ -50,7 +49,8 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
     private float[][] field;
 
     //outputs
-    float[][] hologram, reference, contrast;
+    float[][] hologram, reference, contrast,
+            amplitude, phase, real, imaginary;
 
     //
     private BluesteinHighNA propagator;
@@ -59,6 +59,10 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
     private boolean hologramSelected;
     private boolean referenceSelected;
     private boolean contrastSelected;
+    private boolean amplitudeSelected;
+    private boolean phaseSelected;
+    private boolean realSelected;
+    private boolean imaginarySelected;
 
     //
     private Calibration cal;
@@ -89,10 +93,10 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
                 + "\nNumerical aperture: " + parameters[9]);
 
         parent.updateLabel("Performing simulation...");
-        
+
         //sets the names suffix
         namesSuffix = "; Amp: " + parameters[0] + "; Phase: " + parameters[1];
-        
+
         //gets the calibration object
         cal = parent.getCalibration();
 
@@ -123,6 +127,23 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
                     contrast[i][j] = hologram[i][j] - reference[i][j];
                 }
             }
+        }
+
+        if (amplitudeSelected) {
+            amplitude = propagator.interpolate(ArrayUtils.modulus(field));
+        }
+
+        if (phaseSelected) {
+            phase = propagator.interpolate(ArrayUtils.phase(field));
+        }
+
+        if (realSelected) {
+            real = propagator.interpolate(ArrayUtils.real(field));
+            
+        }
+
+        if (imaginarySelected) {
+            imaginary = propagator.interpolate(ArrayUtils.imaginary(field));
         }
 
         return null;
@@ -157,6 +178,36 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
         if (contrastSelected) {
             ImageProcessor ip = new FloatProcessor(contrast);
             ImagePlus imp = new ImagePlus("Contrast hologram" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+        }
+
+        if (amplitudeSelected) {
+            ImageProcessor ip = new FloatProcessor(amplitude);
+            ImagePlus imp = new ImagePlus("Amplitude" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+        }
+
+        if (phaseSelected) {
+            ImageProcessor ip = new FloatProcessor(phase);
+            ImagePlus imp = new ImagePlus("Phase" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+        }
+
+        if (realSelected) {
+            ImageProcessor ip = new FloatProcessor(real);
+            ImagePlus imp = new ImagePlus("Real" + namesSuffix, ip);
+            imp.setCalibration(cal);
+            imp.show();
+
+        }
+
+
+        if (imaginarySelected) {
+            ImageProcessor ip = new FloatProcessor(imaginary);
+            ImagePlus imp = new ImagePlus("Imaginary" + namesSuffix, ip);
             imp.setCalibration(cal);
             imp.show();
         }
@@ -223,10 +274,17 @@ public class SimulationWorker extends SwingWorker<Void, Void> {
     }
 
     public void setOutputs(boolean hologramSelected, boolean referenceSelected,
-            boolean contrastSelected) {
+            boolean contrastSelected,
+            boolean amplitudeSelected, boolean phaseSelected,
+            boolean realSelected, boolean imaginarySelected) {
 
         this.hologramSelected = hologramSelected;
         this.referenceSelected = referenceSelected;
         this.contrastSelected = contrastSelected;
+        this.amplitudeSelected = amplitudeSelected;
+        this.phaseSelected = phaseSelected;
+        this.realSelected = realSelected;
+        this.imaginarySelected = imaginarySelected;
+
     }
 }
